@@ -574,26 +574,7 @@
             padding-left: 0;
         }
         
-        .achievement-card {
-            display: flex;
-            align-items: center;
-            gap: 1.5rem;
-            background-color: var(--sidebar-bg);
-            padding: 1.5rem;
-            border-radius: 0.75rem;
-            margin-bottom: 1.5rem;
-            border-left: 5px solid var(--primary-yellow);
-        }
-        .achievement-card img {
-            width: 80px;
-            height: 80px;
-            border-radius: 50%;
-            object-fit: cover;
-        }
-        .achievement-card h3 {
-            font-weight: 600;
-            color: var(--header-text);
-        }
+        
 
         /* --- File Grid (Syllabus/Downloads) --- */
         .file-grid {
@@ -672,6 +653,75 @@
             inset: 0;
             background-color: rgba(0, 0, 0, 0.5);
             z-index: 30;
+        }
+
+
+        .achievements-grid {
+            
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(240px, 1fr));
+            gap: 2rem;
+        }
+
+        /* --- Card Styling --- */
+        .achievement-card {
+            background-color: var(--bg-white);
+            border-radius: 1rem; /* 16px */
+            box-shadow: 0 4px 6px -1px var(--shadow-color), 0 2px 4px -2px var(--shadow-color);
+            padding-top: 50px; /* Space for the overflowing image */
+            position: relative;
+            margin-top: 120px;
+            text-align: center;
+        }
+
+        .achievement-photo {
+            width: 200px;
+            height: 200px;
+            border-radius: 0.75rem; /* 12px */
+            object-fit: cover;
+            border: 4px solid var(--bg-white);
+            box-shadow: 0 10px 15px -3px var(--shadow-color);
+            
+            /* Positioning for the overflow effect */
+            position: absolute;
+            top: -100px; /* Half of the image height */
+            left: 50%;
+            transform: translateX(-50%);
+        }
+
+        .achievement-info {
+            padding: 65px 1.5rem 1.5rem; /* Top padding to clear the image */
+        }
+
+        .achievement-name {
+            font-size: 1.25rem; /* 20px */
+            font-weight: 600;
+            color: var(--text-dark);
+            margin-bottom: 0.75rem; /* 12px */
+        }
+
+        .achievement-company-logo {
+            width: 40px;
+            height: 40px;
+            margin: 0 auto 0.5rem;
+        }
+        
+        .achievement-details p {
+            font-size: 1rem; /* 16px */
+            color: var(--text-gray);
+            line-height: 1.4;
+            margin: 0;
+        }
+
+        .achievement-batch {
+            display: inline-block;
+            margin-top: 1rem; /* 16px */
+            padding: 0.25rem 0.75rem; /* 4px 12px */
+            background-color: #e0e7ff;
+            color: #4338ca;
+            border-radius: 9999px;
+            font-size: 0.875rem; /* 14px */
+            font-weight: 500;
         }
 
         /* --- Responsive Styles --- */
@@ -898,10 +948,10 @@
                 </div>
             </section>
             <section id="achievements" class="content-section">
-                <h1 class="page-title">Student Achievements</h1>
-                <div id="achievements-list">
-                    <!-- Achievement cards will be injected here -->
-                </div>
+                 <h1 style="margin-bottom: 2rem;">Student Achievements</h1>
+
+                    <!-- This container will be filled by JavaScript -->
+                    <div id="achievements-grid" class="achievements-grid"></div>
             </section>
             <section id="staff-development" class="content-section">
                 <h1 class="page-title">Staff Development & Training</h1>
@@ -1067,19 +1117,36 @@
 
 
 
-            const renderAchievements = () => {
-                const list = document.getElementById('achievements-list');
-                if (!list) return;
-                list.innerHTML = achievementsData.map(ach => `
-                    <div class="achievement-card">
-                        <img src="${ach.img}" alt="${ach.title}">
-                        <div>
-                            <h3>${ach.title}</h3>
-                            <p>${ach.description}</p>
+            function renderAchievementCards() {
+            const container = document.getElementById('achievements-grid');
+            if (!container) return;
+
+            // Clear previous content
+            container.innerHTML = '';
+
+            // Generate a card for each item in the data array
+            achievementsData.forEach(achievement => {
+                const card = document.createElement('div');
+                card.className = 'achievement-card';
+
+                card.innerHTML = `
+                    <img src="${achievement.imageUrl}" alt="Photo of ${achievement.name}" class="achievement-photo">
+                    <div class="achievement-info">
+                        <h3 class="achievement-name">${achievement.name}</h3>
+                       
+                        <div class="achievement-details">
+                            <p>${achievement.event}</p>
+                            <p>${achievement.details}</p>
                         </div>
+                       
                     </div>
-                `).join('');
-            };
+                `;
+                container.appendChild(card);
+            });
+        }
+
+        // Render the cards when the page is loaded
+        
             
             const renderCollapsibleTable = (tbodyId, data, col1, col2, detailsKey) => {
                 const tbody = document.getElementById(tbodyId);
@@ -1192,12 +1259,14 @@
                 renderAboutDepartment();
                 renderFacultyCards();
                 renderIndustrialVisits();
-                renderAchievements();
+                renderAchievementCards();
                 renderCollapsibleTable('staff-development-tbody', staffDevelopmentData, 'name', 'program', 'details');
                 renderCollapsibleTable('workshops-tbody', workshopsData, 'title', 'date', 'details');
                 renderCollapsibleTable('publications-tbody', publicationsData, 'author', 'title', 'details');
                 renderFileGrid('syllabus-grid', syllabusData);
                 renderFileGrid('downloads-grid', downloadsData);
+
+                
 
                 const savedTheme = localStorage.getItem(LOCAL_STORAGE_KEYS.theme) || 'light';
                 toggleTheme(savedTheme);
