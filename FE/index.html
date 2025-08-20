@@ -8,6 +8,7 @@
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <script src="data.js"></script>
     <style>
         /* --- CSS Variables for Theming --- */
         :root {
@@ -336,15 +337,34 @@
             border-radius: 0.5rem;
             box-shadow: 0 4px 6px -1px var(--shadow-color), 0 2px 4px -2px var(--shadow-color);
             background-color: var(--sidebar-bg);
+            margin-bottom: 1.5rem;
         }
         
         .card-title {
-            font-size: 1.125rem;
+            font-size: 1.25rem;
             font-weight: 600;
-            margin-bottom: 0.5rem;
-            color: var(--text-gray);
+            margin-bottom: 1rem;
+            color: var(--header-text);
+            padding-bottom: 0.5rem;
+            border-bottom: 2px solid var(--primary-red);
+            display: inline-block;
         }
         
+        /* --- About Department Styles --- */
+        .about-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 1.5rem;
+            margin-top: 1.5rem;
+        }
+        .about-grid .card ul {
+            padding-left: 1.25rem;
+            list-style: disc;
+        }
+         .about-grid .card li {
+            margin-bottom: 0.5rem;
+        }
+
         /* --- Faculty Card Styles --- */
         .faculty-grid {
             display: grid;
@@ -371,7 +391,7 @@
         .card-action-button {
             position: absolute;
             width: 32px;
-            right: 10px;
+            right: 8px;
             height: 32px;
             border-radius: 0.5rem;
             background-color: rgba(255, 255, 255, 0.7);
@@ -382,13 +402,10 @@
             color: var(--text-dark);
         }
         .card-action-button:hover {
-             background-color: rgba(255, 255, 255, 1);
+             background-color: rgb(44, 44, 44);
         }
         
-        .add-button {
-            top: 0.75rem;
-            right: 0.75rem;
-        }
+        
 
         .info-overlay {
             position: absolute;
@@ -445,6 +462,172 @@
         
         .dark .info-button {
             background-color: #374151;
+        }
+        
+        /* --- New Component Styles --- */
+        .slider-container {
+            width: 100%;
+            height: 400px;
+            position: relative;
+            overflow: hidden;
+            border-radius: 0.75rem;
+            margin-bottom: 1.5rem;
+        }
+        .slider-slide {
+            width: 100%;
+            height: 100%;
+            position: absolute;
+            opacity: 0;
+            transition: opacity 1s ease-in-out;
+            background-size: cover;
+            background-position: center;
+        }
+        .slider-slide.active {
+            opacity: 1;
+        }
+        .slider-cta {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            text-align: center;
+            color: white;
+            /* background-color: rgba(0,0,0,0.5); */
+            padding: 2rem;
+            border-radius: 0.5rem;
+            /* From https://css.glass */
+            background: rgba(255, 255, 255, 0.03);
+            border-radius: 16px;
+            box-shadow: 0 4px 30px rgba(0, 0, 0, 0.1);
+            backdrop-filter: blur(2.7px);
+            -webkit-backdrop-filter: blur(2.7px);
+            border: 1px solid rgba(255, 255, 255, 0.6);
+            
+        }
+        
+        .collapsible-table {
+            width: 100%;
+            border-collapse: collapse;
+            background-color: var(--sidebar-bg);
+            border-radius: 0.5rem;
+            overflow: hidden;
+        }
+        .collapsible-table th {
+            padding: 1rem;
+            text-align: left;
+            border-bottom: 1px solid var(--sidebar-border);
+        }
+
+        .collapsible-table td {
+            padding: 15px 20px;
+            text-align: left;
+            border-bottom: 1px solid var(--sidebar-border);
+        }
+        .collapsible-table th {
+            background-color: var(--bg-cream);
+        }
+        .collapsible-row {
+            cursor: pointer;
+        }
+        .collapsible-content {
+            padding-left:  1rem;
+            /* background-color: #111827; */
+            /* padding-bottom:  0px; */
+            max-height: 0;
+            overflow: hidden;
+            transition: max-height 0.3s ease-out, padding 0.3s ease-out;
+        }
+        .collapsible-row.active + tr .collapsible-content {
+            padding-left: 1rem;
+        }
+        
+        .image-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+            gap: 1.5rem;
+        }
+        .visit-card {
+            background-color: var(--sidebar-bg);
+            border-radius: 0.75rem;
+            overflow: hidden;
+        }
+        .visit-slider {
+            height: 200px;
+            position: relative;
+        }
+        .visit-slide {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            position: absolute;
+            opacity: 0;
+            transition: opacity 1s ease-in-out;
+        }
+        .visit-slide.active {
+            opacity: 1;
+        }
+        .visit-details {
+            padding: 1rem;
+        }
+        .visit-details .collapsible-content {
+            padding-left: 0;
+        }
+        
+        .achievement-card {
+            display: flex;
+            align-items: center;
+            gap: 1.5rem;
+            background-color: var(--sidebar-bg);
+            padding: 1.5rem;
+            border-radius: 0.75rem;
+            margin-bottom: 1.5rem;
+            border-left: 5px solid var(--primary-yellow);
+        }
+        .achievement-card img {
+            width: 80px;
+            height: 80px;
+            border-radius: 50%;
+            object-fit: cover;
+        }
+        .achievement-card h3 {
+            font-weight: 600;
+            color: var(--header-text);
+        }
+
+        /* --- File Grid (Syllabus/Downloads) --- */
+        .file-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+            gap: 1.5rem;
+        }
+        .file-card {
+            background-color: var(--sidebar-bg);
+            border-radius: 0.5rem;
+            padding: 1.5rem;
+            text-align: center;
+            cursor: pointer;
+        }
+        .file-card svg {
+            width: 48px;
+            height: 48px;
+            color: var(--primary-red);
+            margin-bottom: 1rem;
+        }
+        .file-card h3 {
+            font-weight: 600;
+            margin-bottom: 1rem;
+        }
+        .download-button {
+            display: inline-block;
+            padding: 0.5rem 1rem;
+            margin-bottom: 0px;
+            background-color: var(--primary-red);
+            color: var(--text-light);
+            border-radius: 0.5rem;
+            font-weight: 500;
+        }
+        .file-list {
+            margin-top: 1.5rem;
         }
 
 
@@ -537,6 +720,9 @@
             #sidebar-toggle {
                 display: none;
             }
+            .about-grid {
+                grid-template-columns: 1fr;
+            }
         }
 
     </style>
@@ -548,9 +734,7 @@
         <!-- Logo and Toggle Button -->
         <div class="sidebar-header">
             <div class="logo-container">
-                 <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor">
-                    <path stroke-linecap="round" stroke-linejoin="round" d="M3.75 13.5l10.5-11.25L12 10.5h8.25L9.75 21.75 12 13.5H3.75z" />
-                </svg>
+                 <img src="../images/logo.png" style="width: 40px;" alt="">
                 <span class="logo-text">SRTTC</span>
             </div>
             <button id="sidebar-toggle" aria-label="Toggle sidebar">
@@ -585,14 +769,6 @@
                     <div class="nav-link-content">
                         <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor"><path d="M15 6a3 3 0 11-6 0 3 3 0 016 0zM17.25 8.25a.75.75 0 110-1.5.75.75 0 010 1.5zM21.75 11.25a.75.75 0 10-1.5 0v3a.75.75 0 101.5 0v-3zM15 12.75a.75.75 0 11-1.5 0 .75.75 0 011.5 0zM10.5 12.75a.75.75 0 11-1.5 0 .75.75 0 011.5 0zM12 15a.75.75 0 100-1.5.75.75 0 000 1.5zM12 21a9 9 0 100-18 9 9 0 000 18z" /></svg>
                         <span class="nav-text">Staff</span>
-                    </div>
-                </a>
-            </li>
-            <li>
-                <a href="#" class="nav-link" data-target="laboratory">
-                    <div class="nav-link-content">
-                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor"><path d="M11.25 3.75A1.5 1.5 0 0112.75 5.25v2.053c.42.175.816.401 1.18.672l1.5-1.5a.75.75 0 011.06 1.06l-1.5 1.5c.27.364.498.76.672 1.18h2.053a.75.75 0 010 1.5h-2.053c-.175.42-.401.816-.672 1.18l1.5 1.5a.75.75 0 01-1.06 1.06l-1.5-1.5c-.364.27-.76.498-1.18.672v2.053a.75.75 0 01-1.5 0v-2.053c-.42-.175-.816-.401-1.18-.672l-1.5 1.5a.75.75 0 01-1.06-1.06l1.5-1.5c-.27-.364-.498-.76-.672-1.18H5.25a.75.75 0 010-1.5h2.053c.175-.42.401-.816.672-1.18l-1.5-1.5a.75.75 0 011.06-1.06l1.5 1.5c.364-.27.76-.498 1.18-.672V5.25A1.5 1.5 0 0111.25 3.75zM12 15a3 3 0 100-6 3 3 0 000 6z" /></svg>
-                        <span class="nav-text">Laboratory</span>
                     </div>
                 </a>
             </li>
@@ -645,26 +821,10 @@
                 </a>
             </li>
              <li>
-                <a href="#" class="nav-link" data-target="timetable">
-                    <div class="nav-link-content">
-                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor"><path fill-rule="evenodd" d="M12 2.25c-5.385 0-9.75 4.365-9.75 9.75s4.365 9.75 9.75 9.75 9.75-4.365 9.75-9.75S17.385 2.25 12 2.25zM12.75 6a.75.75 0 00-1.5 0v6c0 .414.336.75.75.75h4.5a.75.75 0 000-1.5h-3.75V6z" clip-rule="evenodd" /></svg>
-                        <span class="nav-text">Timetable</span>
-                    </div>
-                </a>
-            </li>
-             <li>
                 <a href="#" class="nav-link" data-target="downloads">
                     <div class="nav-link-content">
                         <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor"><path fill-rule="evenodd" d="M12 2.25a.75.75 0 01.75.75v11.19l3.22-3.22a.75.75 0 011.06 1.06l-4.5 4.5a.75.75 0 01-1.06 0l-4.5-4.5a.75.75 0 111.06-1.06l3.22 3.22V3a.75.75 0 01.75-.75z" clip-rule="evenodd" /><path d="M3.75 18.75a.75.75 0 000 1.5h16.5a.75.75 0 000-1.5H3.75z" /></svg>
                         <span class="nav-text">Downloads</span>
-                    </div>
-                </a>
-            </li>
-             <li>
-                <a href="#" class="nav-link" data-target="student-forums">
-                    <div class="nav-link-content">
-                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor"><path fill-rule="evenodd" d="M4.804 21.644A6.707 6.707 0 006 21.75a6.721 6.721 0 003.583-1.029c.774.182 1.584.279 2.417.279 5.352 0 9.75-3.448 9.75-7.714s-4.398-7.714-9.75-7.714c-.833 0-1.643.097-2.417.279A6.721 6.721 0 006 5.25a6.707 6.707 0 00-1.196.106.75.75 0 00-.63 1.285 4.48 4.48 0 01-.303.852A4.48 4.48 0 013 7.5c0 1.57.822 2.943 2.066 3.776A4.48 4.48 0 013 15c0 .59.107 1.158.303 1.696a4.48 4.48 0 01.303.852.75.75 0 00.63 1.285z" clip-rule="evenodd" /></svg>
-                        <span class="nav-text">Student Forums</span>
                     </div>
                 </a>
             </li>
@@ -710,8 +870,7 @@
         <div class="content-wrapper">
             <!-- New Content Sections -->
             <section id="about-department" class="content-section">
-                <h1 class="page-title">About Department</h1>
-                <div class="card"><p>Details about the department.</p></div>
+                <!-- About Dept content will be injected here -->
             </section>
             <section id="staff" class="content-section">
                 <h1 class="page-title">Staff</h1>
@@ -719,45 +878,62 @@
                     <!-- Faculty cards will be inserted here by JavaScript -->
                 </div>
             </section>
-            <section id="laboratory" class="content-section">
-                <h1 class="page-title">Laboratory</h1>
-                <div class="card"><p>Details about the laboratory facilities.</p></div>
-            </section>
             <section id="workshops" class="content-section">
-                <h1 class="page-title">Workshops</h1>
-                <div class="card"><p>Information on upcoming and past workshops.</p></div>
+                 <h1 class="page-title">Workshops</h1>
+                 <table class="collapsible-table">
+                    <thead>
+                        <tr><th>Workshop Title</th><th>Date</th></tr>
+                    </thead>
+                    <tbody id="workshops-tbody">
+                        <!-- Workshops rows will be injected here -->
+                    </tbody>
+                </table>
             </section>
             <section id="industrial-visits" class="content-section">
                 <h1 class="page-title">Industrial Visits</h1>
-                <div class="card"><p>Details about industrial visits.</p></div>
+                <div id="image-grid" class="image-grid">
+                    <!-- Industrial visit items will be injected here -->
+                </div>
             </section>
             <section id="achievements" class="content-section">
-                <h1 class="page-title">Achievements</h1>
-                <div class="card"><p>Department and student achievements.</p></div>
+                <h1 class="page-title">Student Achievements</h1>
+                <div id="achievements-list">
+                    <!-- Achievement cards will be injected here -->
+                </div>
             </section>
             <section id="staff-development" class="content-section">
                 <h1 class="page-title">Staff Development & Training</h1>
-                <div class="card"><p>Information on staff development programs.</p></div>
+                <table class="collapsible-table">
+                    <thead>
+                        <tr><th>Teacher Name</th><th>Training Program</th></tr>
+                    </thead>
+                    <tbody id="staff-development-tbody">
+                        <!-- Staff development rows will be injected here -->
+                    </tbody>
+                </table>
             </section>
             <section id="faculty-publications" class="content-section">
                 <h1 class="page-title">Faculty Publications</h1>
-                <div class="card"><p>List of publications by the faculty.</p></div>
+                <table class="collapsible-table">
+                    <thead>
+                        <tr><th>Author</th><th>Publication Title</th></tr>
+                    </thead>
+                    <tbody id="publications-tbody">
+                        <!-- Publications rows will be injected here -->
+                    </tbody>
+                </table>
             </section>
             <section id="syllabus" class="content-section">
                 <h1 class="page-title">Syllabus</h1>
-                <div class="card"><p>Course syllabus details.</p></div>
-            </section>
-            <section id="timetable" class="content-section">
-                <h1 class="page-title">Timetable</h1>
-                <div class="card"><p>Class and lab timetables.</p></div>
+                <div id="syllabus-grid" class="file-grid">
+                    <!-- Syllabus files will be injected here -->
+                </div>
             </section>
             <section id="downloads" class="content-section">
                 <h1 class="page-title">Downloads</h1>
-                <div class="card"><p>Downloadable resources and documents.</p></div>
-            </section>
-            <section id="student-forums" class="content-section">
-                <h1 class="page-title">Student Forums</h1>
-                <div class="card"><p>Link to student discussion forums.</p></div>
+                <div id="downloads-grid" class="file-grid">
+                    <!-- Download files will be injected here -->
+                </div>
             </section>
             
             <!-- Logout Content -->
@@ -771,17 +947,6 @@
     </main>
 
     <script>
-        // --- Faculty Data ---
-        const facultyData = [
-            {
-                name: "Alexander Bennett",
-                title: "Senior UX Designer",
-                photoUrl: "https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?q=80&w=1887&auto=format&fit=crop",
-                resumeUrl: "#"
-            }
-        ];
-
-
         document.addEventListener('DOMContentLoaded', () => {
             // --- DOM Element Selectors ---
             const sidebar = document.getElementById('sidebar');
@@ -802,39 +967,160 @@
                 sidebarCollapsed: 'sidebar-collapsed'
             };
 
-            // --- Functions ---
+            // --- RENDER FUNCTIONS ---
+            
+            const renderAboutDepartment = () => {
+                const container = document.getElementById('about-department');
+                if (!container) return;
+                container.innerHTML = `
+                    <h1 class="page-title">About Department</h1>
 
-            /**
-             * Renders faculty cards into the grid.
-             */
+                <div class="slider-container" id="about-slider">
+                    ${aboutSliderData.map((slide, i) => `
+                        <div class="slider-slide ${i === 0 ? 'active' : ''}" 
+                            style="background-image: url('${slide.img}')">
+                        <div class="slider-cta">
+                            <h2>${slide.text}</h2>
+                        </div>
+                        </div>
+                    `).join('')}
+                    </div>
+
+                    <div class="card">
+                    <p>${aboutData.description}</p>
+                    <p style="text-align: right; font-weight: bold; margin-top: 1rem;">- ${aboutData.hod}</p>
+                    </div>
+
+                    <div class="about-grid">
+                    <div class="card">
+                        <h2 class="card-title">Vision</h2>
+                        <p>${aboutData.vision}</p>
+                    </div>
+                    <div class="card">
+                        <h2 class="card-title">Mission</h2>
+                        <ul>${aboutData.mission.map(item => `<li>${item}</li>`).join('')}</ul>
+                    </div>
+                    <div class="card">
+                        <h2 class="card-title">Short Term Goals</h2>
+                        <ul>${aboutData.shortTermGoals.map(item => `<li>${item}</li>`).join('')}</ul>
+                    </div>
+                    <div class="card">
+                        <h2 class="card-title">Long Term Goals</h2>
+                        <ul>${aboutData.longTermGoals.map(item => `<li>${item}</li>`).join('')}</ul>
+                    </div>
+                    </div>
+
+
+
+                    
+                `;
+
+                const slides = container.querySelectorAll(".slider-slide");
+                    let current = 0;
+                    setInterval(() => {
+                        slides[current].classList.remove("active");
+                        current = (current + 1) % slides.length;
+                        slides[current].classList.add("active");
+                    }, 3000); 
+
+            };
+
             const renderFacultyCards = () => {
                 const grid = document.getElementById('faculty-grid');
                 if (!grid) return;
-
-                let cardsHTML = '';
-                facultyData.forEach(faculty => {
-                    cardsHTML += `
-                        <div class="faculty-card" style="background-image: url('${faculty.photoUrl}')">
-                            
-                            <div class="info-overlay">
-                                <div class="faculty-details">
-                                    <h3 class="faculty-title">${faculty.title}</h3>
-                                    <p class="faculty-name">${faculty.name}</p>
-                                </div>
-                                <a href="${faculty.resumeUrl}" class="card-action-button info-button" aria-label="View Details for ${faculty.name}" target="_blank" rel="noopener noreferrer">
-                                     <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" viewBox="0 0 16 16"><path d="M7.247 11.14 2.451 5.658C1.885 5.013 2.345 4 3.204 4h9.592a1 1 0 0 1 .753 1.659l-4.796 5.48a1 1 0 0 1-1.506 0z"/></svg>
-                                </a>
+                grid.innerHTML = facultyData.map(faculty => `
+                    <div class="faculty-card" style="background-image: url('${faculty.photoUrl}')">
+                        
+                        <div class="info-overlay">
+                            <div class="faculty-details">
+                                <h3 class="faculty-title">${faculty.title}</h3>
+                                <p class="faculty-name">${faculty.name}</p>
                             </div>
+                            <a href="${faculty.resumeUrl}" class="info-button card-action-button" aria-label="View Details for ${faculty.name}" target="_blank" rel="noopener noreferrer">
+                                 <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" viewBox="0 0 16 16"><path d="M7.247 11.14 2.451 5.658C1.885 5.013 2.345 4 3.204 4h9.592a1 1 0 0 1 .753 1.659l-4.796 5.48a1 1 0 0 1-1.506 0z"/></svg>
+                            </a>
                         </div>
-                    `;
-                });
-                grid.innerHTML = cardsHTML;
+                    </div>
+                `).join('');
+            };
+            
+            const renderIndustrialVisits = () => {
+                const grid = document.getElementById('image-grid');
+                if (!grid) return;
+                grid.innerHTML = industrialVisitsData.map(visit => `
+                    <div class="image-compartment">
+                        <img src="${visit.img}" alt="${visit.title}">
+                        <div class="image-details">
+                            <h3>${visit.title}</h3>
+                            <p>${visit.description}</p>
+                        </div>
+                    </div>
+                `).join('');
             };
 
-            /**
-             * Switches the visible content section.
-             * @param {string} targetId - The ID of the content section to show.
-             */
+
+
+
+
+
+
+
+            const renderAchievements = () => {
+                const list = document.getElementById('achievements-list');
+                if (!list) return;
+                list.innerHTML = achievementsData.map(ach => `
+                    <div class="achievement-card">
+                        <img src="${ach.img}" alt="${ach.title}">
+                        <div>
+                            <h3>${ach.title}</h3>
+                            <p>${ach.description}</p>
+                        </div>
+                    </div>
+                `).join('');
+            };
+            
+            const renderCollapsibleTable = (tbodyId, data, col1, col2, detailsKey) => {
+                const tbody = document.getElementById(tbodyId);
+                if (!tbody) return;
+                tbody.innerHTML = data.map(item => `
+                    <tr class="collapsible-row">
+                        <td>${item[col1]}</td>
+                        <td>${item[col2]}</td>
+                    </tr>
+                    <tr>
+                        <td colspan="2">
+                            <div class="collapsible-content">${item[detailsKey]}</div>
+                        </td>
+                    </tr>
+                `).join('');
+
+                tbody.querySelectorAll('.collapsible-row').forEach(row => {
+                    row.addEventListener('click', () => {
+                        row.classList.toggle('active');
+                        const content = row.nextElementSibling.querySelector('.collapsible-content');
+                        if (content.style.maxHeight) {
+                            content.style.maxHeight = null;
+                        } else {
+                            content.style.maxHeight = content.scrollHeight + "px";
+                        }
+                    });
+                });
+            };
+
+            const renderFileGrid = (gridId, data) => {
+                const grid = document.getElementById(gridId);
+                if(!grid) return;
+                grid.innerHTML = data.map(file => `
+                    <div class="file-card">
+                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor"><path fill-rule="evenodd" d="M5.625 1.5c-1.036 0-1.875.84-1.875 1.875v17.25c0 1.035.84 1.875 1.875 1.875h12.75c1.035 0 1.875-.84 1.875-1.875V12.75A3.75 3.75 0 0016.5 9h-1.875a.375.375 0 01-.375-.375V6.75A3.75 3.75 0 009 3H5.625zM12.75 12.75a.75.75 0 000-1.5H8.25a.75.75 0 000 1.5h4.5z" clip-rule="evenodd" /></svg>
+                        <h3>${file.title}</h3>
+                        <a href="${file.url}" class="download-button" target="_blank" rel="noopener noreferrer">View/Download</a>
+                    </div>
+                `).join('');
+            };
+
+            // --- CORE FUNCTIONS ---
+
             const switchContent = (targetId) => {
                 contentSections.forEach(section => section.classList.remove('active'));
                 navLinks.forEach(link => link.classList.remove('active'));
@@ -853,9 +1139,6 @@
                 }
             };
 
-            /**
-             * Filters navigation links based on search input.
-             */
             const filterNavLinks = () => {
                 const searchTerm = searchInput.value.toLowerCase();
                 document.querySelectorAll('#nav-links li').forEach(li => {
@@ -864,10 +1147,6 @@
                 });
             };
 
-            /**
-             * Toggles the theme between light and dark mode.
-             * @param {string} [theme] - Optional theme to set ('light' or 'dark').
-             */
             const toggleTheme = (theme) => {
                 const newTheme = theme || (document.documentElement.classList.contains('dark') ? 'light' : 'dark');
                 document.documentElement.classList.toggle('dark', newTheme === 'dark');
@@ -876,9 +1155,6 @@
                 localStorage.setItem(LOCAL_STORAGE_KEYS.theme, newTheme);
             };
 
-            /**
-             * Toggles the sidebar collapsed state.
-             */
             const toggleSidebar = () => {
                 sidebar.classList.toggle('collapsed');
                 localStorage.setItem(LOCAL_STORAGE_KEYS.sidebarCollapsed, sidebar.classList.contains('collapsed'));
@@ -910,7 +1186,16 @@
 
             // --- Initialization ---
             const initialize = () => {
-                renderFacultyCards(); // Render the cards first
+                // Render all dynamic components
+                renderAboutDepartment();
+                renderFacultyCards();
+                renderIndustrialVisits();
+                renderAchievements();
+                renderCollapsibleTable('staff-development-tbody', staffDevelopmentData, 'name', 'program', 'details');
+                renderCollapsibleTable('workshops-tbody', workshopsData, 'title', 'date', 'details');
+                renderCollapsibleTable('publications-tbody', publicationsData, 'author', 'title', 'details');
+                renderFileGrid('syllabus-grid', syllabusData);
+                renderFileGrid('downloads-grid', downloadsData);
 
                 const savedTheme = localStorage.getItem(LOCAL_STORAGE_KEYS.theme) || 'light';
                 toggleTheme(savedTheme);
@@ -928,6 +1213,7 @@
 
             initialize();
         });
+        
     </script>
 </body>
 </html>
