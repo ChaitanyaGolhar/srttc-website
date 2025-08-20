@@ -1,0 +1,933 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Modern Sidebar Navigation</title>
+    <!-- Google Fonts: Inter -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        /* --- CSS Variables for Theming --- */
+        :root {
+            --primary-red: #E63946;
+            --primary-orange: #F87171;
+            --primary-yellow: #FBBF24;
+            --bg-light: #FFF9E6;
+            --bg-white: #FFFFFF;
+            --bg-cream: #FDF6E3;
+            --text-dark: #111827;
+            --text-gray: #6B7280;
+            --text-light: #FFFFFF;
+            --accent-pink: #D946EF;
+
+            /* Mapping to component styles */
+            --sidebar-bg: var(--bg-white);
+            --sidebar-text: var(--text-gray);
+            --sidebar-hover-bg: var(--bg-cream);
+            --sidebar-active-bg: var(--primary-red);
+            --sidebar-active-text: var(--text-light);
+            --sidebar-border: var(--bg-cream);
+            --content-bg: var(--bg-light);
+            --content-text: var(--text-dark);
+            --header-text: var(--text-dark);
+            --icon-color: var(--text-gray);
+            --icon-active-color: var(--text-light);
+            --input-bg: var(--bg-cream);
+            --input-border: #e5e7eb;
+            --input-text: var(--text-dark);
+            --badge-bg: var(--primary-orange);
+            --badge-text: var(--text-light);
+            --shadow-color: rgba(0, 0, 0, 0.05);
+            --focus-ring-color: var(--primary-red);
+        }
+
+        .dark {
+            --sidebar-bg: #1f2937;
+            --sidebar-text: #d1d5db;
+            --sidebar-hover-bg: #374151;
+            --sidebar-active-bg: var(--primary-red);
+            --sidebar-active-text: var(--text-light);
+            --sidebar-border: #374151;
+            --content-bg: #111827;
+            --content-text: #d1d5db;
+            --header-text: #f9fafb;
+            --icon-color: #9ca3af;
+            --icon-active-color: var(--text-light);
+            --input-bg: #374151;
+            --input-border: #4b5563;
+            --input-text: #f9fafb;
+            --shadow-color: rgba(0, 0, 0, 0.2);
+        }
+
+        /* --- General Styles --- */
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: var(--content-bg);
+            color: var(--content-text);
+            transition: background-color 0.3s ease, color 0.3s ease;
+            overflow-x: hidden;
+        }
+
+        a {
+            text-decoration: none;
+            color: inherit;
+        }
+
+        ul {
+            list-style: none;
+        }
+
+        button {
+            background: none;
+            border: none;
+            cursor: pointer;
+        }
+
+        .hidden {
+            display: none;
+        }
+
+        /* --- Sidebar --- */
+        #sidebar {
+            position: fixed;
+            top: 0;
+            left: 0;
+            height: 100%;
+            width: 256px;
+            background-color: var(--sidebar-bg);
+            border-right: 1px solid var(--sidebar-border);
+            display: flex;
+            flex-direction: column;
+            z-index: 50;
+            transition: width 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+
+        #sidebar.collapsed {
+            width: 80px;
+        }
+
+        .sidebar-header {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 1rem;
+            height: 4rem;
+            border-bottom: 1px solid var(--sidebar-border);
+            transition: justify-content 0.3s ease;
+        }
+        
+        .logo-container {
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+        }
+
+        .logo-container svg {
+            width: 2rem;
+            height: 2rem;
+            color: var(--primary-red);
+        }
+        
+        .logo-text {
+            font-size: 1.25rem;
+            font-weight: 700;
+            color: var(--header-text);
+            white-space: nowrap;
+            overflow: hidden;
+            transition: opacity 0.2s ease, width 0.2s ease;
+        }
+        
+        #sidebar-toggle {
+            padding: 0.5rem;
+            border-radius: 0.375rem;
+            color: var(--sidebar-text);
+        }
+        
+        #sidebar-toggle svg {
+            width: 1.5rem;
+            height: 1.5rem;
+        }
+
+        /* --- Search Bar --- */
+        .search-container {
+            padding: 1rem;
+        }
+        .search-wrapper {
+            position: relative;
+        }
+        .search-wrapper svg {
+            position: absolute;
+            top: 50%;
+            left: 0.75rem;
+            transform: translateY(-50%);
+            width: 1.25rem;
+            height: 1.25rem;
+            color: var(--icon-color);
+        }
+        #search-input {
+            width: 100%;
+            padding: 0.5rem 1rem 0.5rem 2.5rem;
+            border-radius: 0.5rem;
+            border: 1px solid var(--input-border);
+            background-color: var(--input-bg);
+            color: var(--input-text);
+            outline: none;
+            transition: opacity 0.2s ease, width 0.2s ease;
+        }
+        #search-input:focus {
+            box-shadow: 0 0 0 2px var(--focus-ring-color);
+        }
+
+        /* --- Navigation Links --- */
+        #nav-links {
+            flex-grow: 1;
+            padding: 0 1rem;
+            overflow-y: auto;
+            display: flex;
+            flex-direction: column;
+            gap: 0.5rem;
+            -ms-overflow-style: none;
+            scrollbar-width: none;
+        }
+        
+        #nav-links::-webkit-scrollbar {
+            display: none;
+        }
+
+        .nav-link {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 0.75rem;
+            border-radius: 0.5rem;
+            color: var(--sidebar-text);
+            fill: var(--icon-color);
+            transition: background-color 0.2s ease, color 0.2s ease;
+        }
+        .nav-link:hover {
+            background-color: var(--sidebar-hover-bg);
+        }
+        .nav-link.active {
+            background-color: var(--sidebar-active-bg);
+            color: var(--sidebar-active-text);
+            font-weight: 600;
+            fill: var(--icon-active-color);
+        }
+        .nav-link-content {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+        }
+        .nav-link svg {
+            width: 1.5rem;
+            height: 1.5rem;
+            flex-shrink: 0;
+        }
+        .nav-text {
+            white-space: nowrap;
+            overflow: hidden;
+            transition: opacity 0.2s ease, width 0.2s ease;
+        }
+        
+        /* --- Sidebar Footer --- */
+        .sidebar-footer {
+            padding: 1rem;
+            border-top: 1px solid var(--sidebar-border);
+        }
+        .footer-content {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            transition: all 0.3s ease;
+        }
+        .theme-container {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+        }
+        #theme-toggle {
+            padding: 0.5rem;
+            border-radius: 0.375rem;
+            color: var(--sidebar-text);
+        }
+        #theme-toggle svg {
+            width: 1.5rem;
+            height: 1.5rem;
+        }
+        .logout-link {
+            padding: 0.5rem;
+        }
+
+        /* --- Collapsed State Adjustments --- */
+        #sidebar.collapsed .sidebar-header {
+            justify-content: center;
+        }
+        #sidebar.collapsed .logo-container {
+            display: none;
+        }
+        #sidebar.collapsed .nav-text,
+        #sidebar.collapsed #search-input {
+            opacity: 0;
+            width: 0;
+            pointer-events: none;
+        }
+        #sidebar.collapsed .footer-content {
+            flex-direction: column;
+            align-items: center;
+            gap: 1rem;
+        }
+        #sidebar.collapsed .theme-container {
+            gap: 0;
+        }
+
+        /* --- Main Content --- */
+        #main-content {
+            width: 100%;
+            padding-left: 256px;
+            transition: padding-left 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+
+        #sidebar.collapsed + #main-content {
+            padding-left: 80px;
+        }
+
+        .content-wrapper {
+            padding: 1rem 2rem;
+        }
+        
+        .content-section {
+            display: none;
+            animation: fadeIn 0.5s ease-in-out;
+        }
+        
+        .content-section.active {
+            display: block;
+        }
+        
+        #staff.content-section.active {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .page-title {
+            font-size: 1.875rem;
+            font-weight: 700;
+            margin-bottom: 1.5rem;
+            color: var(--header-text);
+            width: 100%;
+        }
+
+        .card {
+            padding: 1.5rem;
+            border-radius: 0.5rem;
+            box-shadow: 0 4px 6px -1px var(--shadow-color), 0 2px 4px -2px var(--shadow-color);
+            background-color: var(--sidebar-bg);
+        }
+        
+        .card-title {
+            font-size: 1.125rem;
+            font-weight: 600;
+            margin-bottom: 0.5rem;
+            color: var(--text-gray);
+        }
+        
+        /* --- Faculty Card Styles --- */
+        .faculty-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
+            gap: 1.5rem;
+            width: 100%;
+        }
+
+        .faculty-card {
+            position: relative;
+            border-radius: 0.75rem;
+            overflow: hidden;
+            box-shadow: 0 4px 6px -1px var(--shadow-color), 0 2px 4px -2px var(--shadow-color);
+            transition: transform 0.2s ease, box-shadow 0.2s ease;
+            height: 350px;
+            background-size: cover;
+            background-position: center;
+        }
+        .faculty-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 15px -3px var(--shadow-color), 0 4px 6px -4px var(--shadow-color);
+        }
+        
+        .card-action-button {
+            position: absolute;
+            width: 32px;
+            right: 10px;
+            height: 32px;
+            border-radius: 0.5rem;
+            background-color: rgba(255, 255, 255, 0.7);
+            backdrop-filter: blur(4px);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: var(--text-dark);
+        }
+        .card-action-button:hover {
+             background-color: rgba(255, 255, 255, 1);
+        }
+        
+        .add-button {
+            top: 0.75rem;
+            right: 0.75rem;
+        }
+
+        .info-overlay {
+            position: absolute;
+            bottom: 0.75rem;
+            left: 0.75rem;
+            right: 0.75rem;
+            background-color: rgba(255, 255, 255, 0.8);
+            backdrop-filter: blur(8px);
+            border-radius: 0.625rem;
+            padding: 0.75rem;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            border: 1px solid rgba(255, 255, 255, 0.2);
+        }
+        
+        .dark .info-overlay {
+             background-color: rgba(20, 20, 20, 0.7);
+             border: 1px solid rgba(255, 255, 255, 0.1);
+        }
+        
+        .dark .card-action-button {
+            background-color: rgba(50, 50, 50, 0.7);
+            color: var(--text-light);
+        }
+         .dark .card-action-button:hover {
+             background-color: rgba(50, 50, 50, 1);
+        }
+
+        .faculty-details {
+            text-align: left;
+        }
+
+        .faculty-title {
+            font-size: 1rem;
+            font-weight: 600;
+            color: var(--header-text);
+        }
+
+        .faculty-name {
+            font-size: 0.875rem;
+            color: var(--text-gray);
+        }
+        
+        .info-button {
+            width: 36px;
+            height: 36px;
+            border-radius: 0.5rem;
+            background-color: var(--text-dark);
+            color: var(--text-light);
+            flex-shrink: 0;
+            margin-left: 0.5rem;
+        }
+        
+        .dark .info-button {
+            background-color: #374151;
+        }
+
+
+        /* --- Mobile Header --- */
+        #mobile-header {
+            display: none;
+            align-items: center;
+            justify-content: space-between;
+            padding: 1rem;
+            height: 4rem;
+            border-bottom: 1px solid var(--sidebar-border);
+            background-color: var(--sidebar-bg);
+        }
+        #mobile-menu-button {
+            padding: 0.5rem;
+            border-radius: 0.375rem;
+            color: var(--sidebar-text);
+        }
+        #mobile-menu-button svg {
+            width: 1.5rem;
+            height: 1.5rem;
+        }
+        .mobile-logo {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+        .mobile-logo svg {
+            width: 1.75rem;
+            height: 1.75rem;
+            color: var(--primary-red);
+        }
+        .mobile-logo span {
+            font-size: 1.125rem;
+            font-weight: 700;
+            color: var(--header-text);
+        }
+        #mobile-overlay {
+            position: fixed;
+            inset: 0;
+            background-color: rgba(0, 0, 0, 0.5);
+            z-index: 30;
+        }
+
+        /* --- Responsive Styles --- */
+        @media (min-width: 768px) {
+            #sidebar-toggle {
+                display: block;
+            }
+        }
+        
+        @media (max-width: 767px) {
+            #sidebar {
+                transform: translateX(-100%);
+                transition: transform 0.3s ease-in-out;
+            }
+            #sidebar.open {
+                transform: translateX(0);
+            }
+            #sidebar.collapsed {
+                width: 256px;
+            }
+            #sidebar.collapsed .nav-text,
+            #sidebar.collapsed .logo-text,
+            #sidebar.collapsed #search-input {
+                 opacity: 1;
+                 width: auto;
+                 pointer-events: auto;
+            }
+            #sidebar.collapsed .sidebar-header {
+                justify-content: space-between;
+            }
+            #sidebar.collapsed .logo-container {
+                display: flex;
+            }
+            #sidebar.collapsed .footer-content {
+                flex-direction: row;
+                align-items: center;
+                gap: 0;
+            }
+            #main-content {
+                padding-left: 0;
+            }
+            #sidebar.collapsed + #main-content {
+                padding-left: 0;
+            }
+            #mobile-header {
+                display: flex;
+            }
+            #sidebar-toggle {
+                display: none;
+            }
+        }
+
+    </style>
+</head>
+<body>
+
+    <!-- Sidebar Navigation -->
+    <nav id="sidebar">
+        <!-- Logo and Toggle Button -->
+        <div class="sidebar-header">
+            <div class="logo-container">
+                 <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor">
+                    <path stroke-linecap="round" stroke-linejoin="round" d="M3.75 13.5l10.5-11.25L12 10.5h8.25L9.75 21.75 12 13.5H3.75z" />
+                </svg>
+                <span class="logo-text">SRTTC</span>
+            </div>
+            <button id="sidebar-toggle" aria-label="Toggle sidebar">
+                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+                    <path stroke-linecap="round" stroke-linejoin="round" d="M4 6h16M4 12h16M4 18h16" />
+                </svg>
+            </button>
+        </div>
+
+        <!-- Search Bar -->
+        <div class="search-container">
+            <div class="search-wrapper">
+                <svg viewBox="0 0 20 20" fill="currentColor">
+                    <path fill-rule="evenodd" d="M8 4a4 4 0 100 8 4 4 0 000-8zM2 8a6 6 0 1110.89 3.476l4.817 4.817a1 1 0 01-1.414 1.414l-4.816-4.816A6 6 0 012 8z" clip-rule="evenodd" />
+                </svg>
+                <input id="search-input" type="text" placeholder="Search...">
+            </div>
+        </div>
+
+        <!-- Navigation Links -->
+        <ul id="nav-links">
+            <li>
+                <a href="#" class="nav-link" data-target="about-department">
+                    <div class="nav-link-content">
+                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2.25c-5.385 0-9.75 4.365-9.75 9.75s4.365 9.75 9.75 9.75 9.75-4.365 9.75-9.75S17.385 2.25 12 2.25zM12.75 6a.75.75 0 00-1.5 0v6c0 .414.336.75.75.75h4.5a.75.75 0 000-1.5h-3.75V6z" /></svg>
+                        <span class="nav-text">About Department</span>
+                    </div>
+                </a>
+            </li>
+            <li>
+                <a href="#" class="nav-link" data-target="staff">
+                    <div class="nav-link-content">
+                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor"><path d="M15 6a3 3 0 11-6 0 3 3 0 016 0zM17.25 8.25a.75.75 0 110-1.5.75.75 0 010 1.5zM21.75 11.25a.75.75 0 10-1.5 0v3a.75.75 0 101.5 0v-3zM15 12.75a.75.75 0 11-1.5 0 .75.75 0 011.5 0zM10.5 12.75a.75.75 0 11-1.5 0 .75.75 0 011.5 0zM12 15a.75.75 0 100-1.5.75.75 0 000 1.5zM12 21a9 9 0 100-18 9 9 0 000 18z" /></svg>
+                        <span class="nav-text">Staff</span>
+                    </div>
+                </a>
+            </li>
+            <li>
+                <a href="#" class="nav-link" data-target="laboratory">
+                    <div class="nav-link-content">
+                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor"><path d="M11.25 3.75A1.5 1.5 0 0112.75 5.25v2.053c.42.175.816.401 1.18.672l1.5-1.5a.75.75 0 011.06 1.06l-1.5 1.5c.27.364.498.76.672 1.18h2.053a.75.75 0 010 1.5h-2.053c-.175.42-.401.816-.672 1.18l1.5 1.5a.75.75 0 01-1.06 1.06l-1.5-1.5c-.364.27-.76.498-1.18.672v2.053a.75.75 0 01-1.5 0v-2.053c-.42-.175-.816-.401-1.18-.672l-1.5 1.5a.75.75 0 01-1.06-1.06l1.5-1.5c-.27-.364-.498-.76-.672-1.18H5.25a.75.75 0 010-1.5h2.053c.175-.42.401-.816.672-1.18l-1.5-1.5a.75.75 0 011.06-1.06l1.5 1.5c.364-.27.76-.498 1.18-.672V5.25A1.5 1.5 0 0111.25 3.75zM12 15a3 3 0 100-6 3 3 0 000 6z" /></svg>
+                        <span class="nav-text">Laboratory</span>
+                    </div>
+                </a>
+            </li>
+            <li>
+                <a href="#" class="nav-link" data-target="workshops">
+                    <div class="nav-link-content">
+                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor"><path d="M12 9a3.75 3.75 0 100 7.5A3.75 3.75 0 0012 9z" /><path fill-rule="evenodd" d="M9.344 3.071a49.52 49.52 0 015.312 0c.967.052 1.83.585 2.342 1.374a3.026 3.026 0 01.64 2.285V17.54a3.026 3.026 0 01-.64 2.285c-.512.79-1.375 1.322-2.342 1.374a49.52 49.52 0 01-5.312 0c-.967-.052-1.83-.585-2.342-1.374a3.026 3.026 0 01-.64-2.285V6.73c0-.91.231-1.768.64-2.285.512-.79 1.375-1.322 2.342-1.374zM12 5.25a1.5 1.5 0 100 3 1.5 1.5 0 000-3z" clip-rule="evenodd" /></svg>
+                        <span class="nav-text">Workshops</span>
+                    </div>
+                </a>
+            </li>
+             <li>
+                <a href="#" class="nav-link" data-target="industrial-visits">
+                    <div class="nav-link-content">
+                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor"><path fill-rule="evenodd" d="M3 6a3 3 0 013-3h12a3 3 0 013 3v12a3 3 0 01-3 3H6a3 3 0 01-3-3V6zm4.5 9a1.5 1.5 0 100-3 1.5 1.5 0 000 3zM12 15a1.5 1.5 0 100-3 1.5 1.5 0 000 3zM16.5 15a1.5 1.5 0 100-3 1.5 1.5 0 000 3zM7.5 9a1.5 1.5 0 100-3 1.5 1.5 0 000 3zM12 9a1.5 1.5 0 100-3 1.5 1.5 0 000 3zM16.5 9a1.5 1.5 0 100-3 1.5 1.5 0 000 3z" clip-rule="evenodd" /></svg>
+                        <span class="nav-text">Industrial Visits</span>
+                    </div>
+                </a>
+            </li>
+             <li>
+                <a href="#" class="nav-link" data-target="achievements">
+                    <div class="nav-link-content">
+                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor"><path fill-rule="evenodd" d="M12.963 2.286a.75.75 0 00-1.071-.136 9.742 9.742 0 00-3.527 1.22 9.753 9.753 0 00-4.027 3.527.75.75 0 00.136 1.071l2.136 2.136a.75.75 0 001.06 0l.566-.566a.75.75 0 011.06 0l.566.566a.75.75 0 001.06 0l.566-.566a.75.75 0 011.06 0l.566.566a.75.75 0 001.06 0l2.136-2.136a.75.75 0 00.136-1.071 9.753 9.753 0 00-4.027-3.527 9.742 9.742 0 00-3.527-1.22z" clip-rule="evenodd" /></svg>
+                        <span class="nav-text">Achievements</span>
+                    </div>
+                </a>
+            </li>
+             <li>
+                <a href="#" class="nav-link" data-target="staff-development">
+                    <div class="nav-link-content">
+                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2.25a.75.75 0 01.75.75v18a.75.75 0 01-1.5 0V3a.75.75 0 01.75-.75zM21.75 12a.75.75 0 00-.75-.75H3a.75.75 0 000 1.5h18a.75.75 0 00.75-.75z" /></svg>
+                        <span class="nav-text">Staff Development</span>
+                    </div>
+                </a>
+            </li>
+             <li>
+                <a href="#" class="nav-link" data-target="faculty-publications">
+                    <div class="nav-link-content">
+                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor"><path d="M11.25 4.532c0-1.082.796-2.032 1.836-2.252A10.526 10.526 0 0115 2.25c5.121 0 9.25 3.24 9.25 7.25 0 4.01-4.129 7.25-9.25 7.25s-9.25-3.24-9.25-7.25c0-1.631.796-3.133 2.11-4.282A5.965 5.965 0 0111.25 4.532z" /><path d="M12.251 18.749a.75.75 0 01-1.06 0l-3.5-3.5a.75.75 0 011.06-1.06l3.5 3.5a.75.75 0 010 1.06z" /><path d="M14.75 16.25a.75.75 0 01-1.06 0l-3.5-3.5a.75.75 0 011.06-1.06l3.5 3.5a.75.75 0 010 1.06z" /></svg>
+                        <span class="nav-text">Faculty Publications</span>
+                    </div>
+                </a>
+            </li>
+             <li>
+                <a href="#" class="nav-link" data-target="syllabus">
+                    <div class="nav-link-content">
+                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor"><path d="M11.25 4.5A2.25 2.25 0 0113.5 6.75v10.5A2.25 2.25 0 0111.25 19.5h-4.5A2.25 2.25 0 014.5 17.25V6.75A2.25 2.25 0 016.75 4.5h4.5z" /><path d="M15 6.75a2.25 2.25 0 012.25-2.25h.75a.75.75 0 01.75.75v13.5a.75.75 0 01-.75.75h-.75A2.25 2.25 0 0115 17.25V6.75z" /></svg>
+                        <span class="nav-text">Syllabus</span>
+                    </div>
+                </a>
+            </li>
+             <li>
+                <a href="#" class="nav-link" data-target="timetable">
+                    <div class="nav-link-content">
+                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor"><path fill-rule="evenodd" d="M12 2.25c-5.385 0-9.75 4.365-9.75 9.75s4.365 9.75 9.75 9.75 9.75-4.365 9.75-9.75S17.385 2.25 12 2.25zM12.75 6a.75.75 0 00-1.5 0v6c0 .414.336.75.75.75h4.5a.75.75 0 000-1.5h-3.75V6z" clip-rule="evenodd" /></svg>
+                        <span class="nav-text">Timetable</span>
+                    </div>
+                </a>
+            </li>
+             <li>
+                <a href="#" class="nav-link" data-target="downloads">
+                    <div class="nav-link-content">
+                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor"><path fill-rule="evenodd" d="M12 2.25a.75.75 0 01.75.75v11.19l3.22-3.22a.75.75 0 011.06 1.06l-4.5 4.5a.75.75 0 01-1.06 0l-4.5-4.5a.75.75 0 111.06-1.06l3.22 3.22V3a.75.75 0 01.75-.75z" clip-rule="evenodd" /><path d="M3.75 18.75a.75.75 0 000 1.5h16.5a.75.75 0 000-1.5H3.75z" /></svg>
+                        <span class="nav-text">Downloads</span>
+                    </div>
+                </a>
+            </li>
+             <li>
+                <a href="#" class="nav-link" data-target="student-forums">
+                    <div class="nav-link-content">
+                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor"><path fill-rule="evenodd" d="M4.804 21.644A6.707 6.707 0 006 21.75a6.721 6.721 0 003.583-1.029c.774.182 1.584.279 2.417.279 5.352 0 9.75-3.448 9.75-7.714s-4.398-7.714-9.75-7.714c-.833 0-1.643.097-2.417.279A6.721 6.721 0 006 5.25a6.707 6.707 0 00-1.196.106.75.75 0 00-.63 1.285 4.48 4.48 0 01-.303.852A4.48 4.48 0 013 7.5c0 1.57.822 2.943 2.066 3.776A4.48 4.48 0 013 15c0 .59.107 1.158.303 1.696a4.48 4.48 0 01.303.852.75.75 0 00.63 1.285z" clip-rule="evenodd" /></svg>
+                        <span class="nav-text">Student Forums</span>
+                    </div>
+                </a>
+            </li>
+        </ul>
+
+        <!-- Footer: Theme Toggle and Logout -->
+        <div class="sidebar-footer">
+            <div class="footer-content">
+                <div class="theme-container">
+                    <button id="theme-toggle" aria-label="Toggle theme">
+                        <svg id="theme-icon-light" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2.25a.75.75 0 0 1 .75.75v2.25a.75.75 0 0 1-1.5 0V3a.75.75 0 0 1 .75-.75ZM7.5 12a4.5 4.5 0 1 1 9 0 4.5 4.5 0 0 1-9 0ZM18.894 6.106a.75.75 0 0 1 0 1.06l-1.591 1.592a.75.75 0 0 1-1.06-1.061l1.591-1.591a.75.75 0 0 1 1.06 0ZM21.75 12a.75.75 0 0 1-.75.75h-2.25a.75.75 0 0 1 0-1.5h2.25a.75.75 0 0 1 .75.75ZM17.803 17.803a.75.75 0 0 1-1.06 0l-1.591-1.591a.75.75 0 1 1 1.06-1.06l1.591 1.591a.75.75 0 0 1 0 1.06ZM12 21a.75.75 0 0 1-.75-.75v-2.25a.75.75 0 0 1 1.5 0v2.25a.75.75 0 0 1-.75.75ZM4.496 6.106a.75.75 0 0 1 1.06 0l1.591 1.592a.75.75 0 0 1-1.06 1.06L4.496 7.166a.75.75 0 0 1 0-1.06ZM3 12a.75.75 0 0 1 .75-.75h2.25a.75.75 0 0 1 0 1.5H3.75A.75.75 0 0 1 3 12ZM6.106 17.803a.75.75 0 0 1 0-1.06l1.591-1.591a.75.75 0 1 1 1.06 1.06l-1.591 1.591a.75.75 0 0 1-1.06 0Z"></path></svg>
+                        <svg id="theme-icon-dark" class="hidden" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor"><path fill-rule="evenodd" d="M9.528 1.718a.75.75 0 0 1 .162.819A8.97 8.97 0 0 0 9 6a9 9 0 0 0 9 9 8.97 8.97 0 0 0 3.463-.69.75.75 0 0 1 .981.981A10.503 10.503 0 0 1 12 22.5a10.5 10.5 0 0 1-10.5-10.5c0-4.368 2.667-8.112 6.46-9.672a.75.75 0 0 1 .818.162Z" clip-rule="evenodd"></path></svg>
+                    </button>
+                    <span class="nav-text">Theme</span>
+                </div>
+                <a href="#" class="nav-link logout-link" data-target="logout">
+                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor"><path fill-rule="evenodd" d="M7.5 3.75A1.5 1.5 0 0 0 6 5.25v13.5a1.5 1.5 0 0 0 1.5 1.5h6a1.5 1.5 0 0 0 1.5-1.5V15a.75.75 0 0 1 1.5 0v3.75a3 3 0 0 1-3 3h-6a3 3 0 0 1-3-3V5.25a3 3 0 0 1 3-3h6a3 3 0 0 1 3 3V9A.75.75 0 0 1 15 9V5.25a1.5 1.5 0 0 0-1.5-1.5h-6Zm10.72 4.72a.75.75 0 0 1 1.06 0l3 3a.75.75 0 0 1 0 1.06l-3 3a.75.75 0 1 1-1.06-1.06l1.72-1.72H9a.75.75 0 0 1 0-1.5h10.94l-1.72-1.72a.75.75 0 0 1 0-1.06Z" clip-rule="evenodd"></path></svg>
+                    <span class="nav-text">Logout</span>
+                </a>
+            </div>
+        </div>
+    </nav>
+    
+    <!-- Mobile Header and Overlay -->
+    <div id="mobile-overlay" class="hidden"></div>
+    
+    <!-- Main Content -->
+    <main id="main-content">
+        <header id="mobile-header">
+            <button id="mobile-menu-button" aria-label="Open menu">
+                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+                    <path stroke-linecap="round" stroke-linejoin="round" d="M4 6h16M4 12h8m-8 6h16" />
+                </svg>
+            </button>
+            <div class="mobile-logo">
+                 <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor">
+                    <path stroke-linecap="round" stroke-linejoin="round" d="M3.75 13.5l10.5-11.25L12 10.5h8.25L9.75 21.75 12 13.5H3.75z" />
+                </svg>
+                <span>SRTTC</span>
+            </div>
+        </header>
+        
+        <div class="content-wrapper">
+            <!-- New Content Sections -->
+            <section id="about-department" class="content-section">
+                <h1 class="page-title">About Department</h1>
+                <div class="card"><p>Details about the department.</p></div>
+            </section>
+            <section id="staff" class="content-section">
+                <h1 class="page-title">Staff</h1>
+                <div id="faculty-grid" class="faculty-grid">
+                    <!-- Faculty cards will be inserted here by JavaScript -->
+                </div>
+            </section>
+            <section id="laboratory" class="content-section">
+                <h1 class="page-title">Laboratory</h1>
+                <div class="card"><p>Details about the laboratory facilities.</p></div>
+            </section>
+            <section id="workshops" class="content-section">
+                <h1 class="page-title">Workshops</h1>
+                <div class="card"><p>Information on upcoming and past workshops.</p></div>
+            </section>
+            <section id="industrial-visits" class="content-section">
+                <h1 class="page-title">Industrial Visits</h1>
+                <div class="card"><p>Details about industrial visits.</p></div>
+            </section>
+            <section id="achievements" class="content-section">
+                <h1 class="page-title">Achievements</h1>
+                <div class="card"><p>Department and student achievements.</p></div>
+            </section>
+            <section id="staff-development" class="content-section">
+                <h1 class="page-title">Staff Development & Training</h1>
+                <div class="card"><p>Information on staff development programs.</p></div>
+            </section>
+            <section id="faculty-publications" class="content-section">
+                <h1 class="page-title">Faculty Publications</h1>
+                <div class="card"><p>List of publications by the faculty.</p></div>
+            </section>
+            <section id="syllabus" class="content-section">
+                <h1 class="page-title">Syllabus</h1>
+                <div class="card"><p>Course syllabus details.</p></div>
+            </section>
+            <section id="timetable" class="content-section">
+                <h1 class="page-title">Timetable</h1>
+                <div class="card"><p>Class and lab timetables.</p></div>
+            </section>
+            <section id="downloads" class="content-section">
+                <h1 class="page-title">Downloads</h1>
+                <div class="card"><p>Downloadable resources and documents.</p></div>
+            </section>
+            <section id="student-forums" class="content-section">
+                <h1 class="page-title">Student Forums</h1>
+                <div class="card"><p>Link to student discussion forums.</p></div>
+            </section>
+            
+            <!-- Logout Content -->
+            <section id="logout" class="content-section">
+                <h1 class="page-title">Logged Out</h1>
+                 <div class="card">
+                    <p>You have been successfully logged out.</p>
+                </div>
+            </section>
+        </div>
+    </main>
+
+    <script>
+        // --- Faculty Data ---
+        const facultyData = [
+            {
+                name: "Alexander Bennett",
+                title: "Senior UX Designer",
+                photoUrl: "https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?q=80&w=1887&auto=format&fit=crop",
+                resumeUrl: "#"
+            }
+        ];
+
+
+        document.addEventListener('DOMContentLoaded', () => {
+            // --- DOM Element Selectors ---
+            const sidebar = document.getElementById('sidebar');
+            const sidebarToggle = document.getElementById('sidebar-toggle');
+            const mobileMenuButton = document.getElementById('mobile-menu-button');
+            const mobileOverlay = document.getElementById('mobile-overlay');
+            const navLinks = document.querySelectorAll('.nav-link');
+            const contentSections = document.querySelectorAll('.content-section');
+            const searchInput = document.getElementById('search-input');
+            const themeToggle = document.getElementById('theme-toggle');
+            const themeIconLight = document.getElementById('theme-icon-light');
+            const themeIconDark = document.getElementById('theme-icon-dark');
+
+            // --- State Management ---
+            const LOCAL_STORAGE_KEYS = {
+                activeSection: 'sidebar-active-section',
+                theme: 'sidebar-theme',
+                sidebarCollapsed: 'sidebar-collapsed'
+            };
+
+            // --- Functions ---
+
+            /**
+             * Renders faculty cards into the grid.
+             */
+            const renderFacultyCards = () => {
+                const grid = document.getElementById('faculty-grid');
+                if (!grid) return;
+
+                let cardsHTML = '';
+                facultyData.forEach(faculty => {
+                    cardsHTML += `
+                        <div class="faculty-card" style="background-image: url('${faculty.photoUrl}')">
+                            
+                            <div class="info-overlay">
+                                <div class="faculty-details">
+                                    <h3 class="faculty-title">${faculty.title}</h3>
+                                    <p class="faculty-name">${faculty.name}</p>
+                                </div>
+                                <a href="${faculty.resumeUrl}" class="card-action-button info-button" aria-label="View Details for ${faculty.name}" target="_blank" rel="noopener noreferrer">
+                                     <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" viewBox="0 0 16 16"><path d="M7.247 11.14 2.451 5.658C1.885 5.013 2.345 4 3.204 4h9.592a1 1 0 0 1 .753 1.659l-4.796 5.48a1 1 0 0 1-1.506 0z"/></svg>
+                                </a>
+                            </div>
+                        </div>
+                    `;
+                });
+                grid.innerHTML = cardsHTML;
+            };
+
+            /**
+             * Switches the visible content section.
+             * @param {string} targetId - The ID of the content section to show.
+             */
+            const switchContent = (targetId) => {
+                contentSections.forEach(section => section.classList.remove('active'));
+                navLinks.forEach(link => link.classList.remove('active'));
+
+                const targetSection = document.getElementById(targetId);
+                const targetLink = document.querySelector(`.nav-link[data-target="${targetId}"]`);
+
+                if (targetSection) targetSection.classList.add('active');
+                if (targetLink) targetLink.classList.add('active');
+
+                localStorage.setItem(LOCAL_STORAGE_KEYS.activeSection, targetId);
+                
+                if (window.innerWidth < 768) {
+                    sidebar.classList.remove('open');
+                    mobileOverlay.classList.add('hidden');
+                }
+            };
+
+            /**
+             * Filters navigation links based on search input.
+             */
+            const filterNavLinks = () => {
+                const searchTerm = searchInput.value.toLowerCase();
+                document.querySelectorAll('#nav-links li').forEach(li => {
+                    const linkText = li.querySelector('.nav-text').textContent.toLowerCase();
+                    li.style.display = linkText.includes(searchTerm) ? 'block' : 'none';
+                });
+            };
+
+            /**
+             * Toggles the theme between light and dark mode.
+             * @param {string} [theme] - Optional theme to set ('light' or 'dark').
+             */
+            const toggleTheme = (theme) => {
+                const newTheme = theme || (document.documentElement.classList.contains('dark') ? 'light' : 'dark');
+                document.documentElement.classList.toggle('dark', newTheme === 'dark');
+                themeIconLight.classList.toggle('hidden', newTheme === 'dark');
+                themeIconDark.classList.toggle('hidden', newTheme === 'light');
+                localStorage.setItem(LOCAL_STORAGE_KEYS.theme, newTheme);
+            };
+
+            /**
+             * Toggles the sidebar collapsed state.
+             */
+            const toggleSidebar = () => {
+                sidebar.classList.toggle('collapsed');
+                localStorage.setItem(LOCAL_STORAGE_KEYS.sidebarCollapsed, sidebar.classList.contains('collapsed'));
+            };
+
+            // --- Event Listeners ---
+            if (sidebarToggle) sidebarToggle.addEventListener('click', toggleSidebar);
+            if (mobileMenuButton) {
+                mobileMenuButton.addEventListener('click', () => {
+                    sidebar.classList.toggle('open');
+                    mobileOverlay.classList.toggle('hidden');
+                });
+            }
+            if (mobileOverlay) {
+                mobileOverlay.addEventListener('click', () => {
+                    sidebar.classList.remove('open');
+                    mobileOverlay.classList.add('hidden');
+                });
+            }
+            navLinks.forEach(link => {
+                link.addEventListener('click', (e) => {
+                    e.preventDefault();
+                    const targetId = link.dataset.target;
+                    if (targetId) switchContent(targetId);
+                });
+            });
+            if (searchInput) searchInput.addEventListener('input', filterNavLinks);
+            if (themeToggle) themeToggle.addEventListener('click', () => toggleTheme());
+
+            // --- Initialization ---
+            const initialize = () => {
+                renderFacultyCards(); // Render the cards first
+
+                const savedTheme = localStorage.getItem(LOCAL_STORAGE_KEYS.theme) || 'light';
+                toggleTheme(savedTheme);
+
+                const isCollapsed = localStorage.getItem(LOCAL_STORAGE_KEYS.sidebarCollapsed) === 'true';
+                if (isCollapsed && window.innerWidth >= 768) {
+                    sidebar.classList.add('collapsed');
+                }
+
+                const firstLink = document.querySelector('#nav-links .nav-link');
+                const defaultSection = firstLink ? firstLink.dataset.target : 'about-department';
+                const savedSection = localStorage.getItem(LOCAL_STORAGE_KEYS.activeSection) || defaultSection;
+                switchContent(savedSection);
+            };
+
+            initialize();
+        });
+    </script>
+</body>
+</html>
