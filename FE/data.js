@@ -138,10 +138,17 @@ const publicationsData = [
 
 
 const syllabusData = [
-    { title: "First Year Syllabus", url: "#" },
-    { title: "Computer Engg. Syllabus", url: "#" }
+    { title: "First Year Engineering Syllabus", url: "#" },
+    { title: "Computer Engineering Syllabus", url: "#" },
+    { title: "Information Technology Syllabus", url: "#" },
+    { title: "Artificial Intelligence & Data Science Syllabus", url: "#" },
+    { title: "Mechanical Engineering Syllabus", url: "#" },
+    { title: "Civil Engineering Syllabus", url: "#" },
+    { title: "Computer Science & Engineering (Data Science) Syllabus", url: "#" },
+    { title: "Computer Engineering(PG) Syllabus", url: "#" },
+    { title: "Mechanical Engineering Design(PG) Syllabus", url: "#" },
+    { title: "Civil Engineering Structures(PG) Syllabus", url: "#" }
 ];
-
 const downloadsData = [
   { title: "Engineering Mathematics-I", url: "#" },
   { title: "Engineering Mathematics-II", url: "#" },
