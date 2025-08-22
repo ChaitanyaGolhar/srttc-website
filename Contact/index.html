@@ -1,0 +1,459 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Contact Us - SRTTC</title>
+
+  <!-- Font Awesome for Icons -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  <!-- Google Fonts for Typography -->
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700&family=Lato:wght@300;400;700&display=swap" rel="stylesheet">
+  
+  <style>
+    /* Variables */
+    :root {
+      --primary: #C41E3A;
+      --secondary: #FFD700;
+      --accent: #FF6B6B;
+      --light: #FFF8E1;
+      --dark: #333;
+      --gray: #F5F5F5;
+    }
+
+    body {
+      font-family: 'Lato', sans-serif;
+      background: var(--light);
+      margin: 0;
+      padding: 0;
+    }
+
+    .container {
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 1.5rem;
+    }
+
+    .section-title {
+      text-align: center;
+      font-size: 2rem;
+      font-family: 'Poppins', sans-serif;
+      margin-bottom: 0.5rem;
+    }
+
+    .section-subtitle {
+      text-align: center;
+      color: #666;
+      margin-bottom: 2rem;
+      font-size: 1rem;
+      line-height: 1.4;
+    }
+
+    .contact-grid {
+      display: grid;
+      grid-template-columns: 1fr;
+      gap: 2rem;
+      background: #fff;
+      padding: 1.5rem;
+      border-radius: 12px;
+      box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+    }
+
+    @media(min-width: 992px) {
+      .contact-grid {
+        grid-template-columns: 1fr 2fr;
+        padding: 2rem;
+      }
+    }
+
+    .contact-info-card {
+      background: linear-gradient(135deg, var(--primary), var(--accent));
+      color: #fff;
+      padding: 1.5rem;
+      border-radius: 10px;
+    }
+
+    .contact-info-card h3 {
+      font-family: 'Poppins', sans-serif;
+      margin-bottom: 1rem;
+    }
+
+    .contact-info-card p {
+      margin: 0.5rem 0;
+      line-height: 1.4;
+      font-size: 0.95rem;
+    }
+
+    /* Social Icons */
+    .social-icons {
+      display: flex;
+      justify-content: center;
+      gap: 12px;
+      margin-top: 1.2rem;
+    }
+
+    .social-icon {
+      width: 42px;
+      height: 42px;
+      border-radius: 50%;
+      background: #fff;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: var(--primary);
+      font-size: 1.2rem;
+      transition: all 0.3s ease;
+      box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+      text-decoration: none;
+    }
+
+    .social-icon:hover {
+      background: var(--secondary);
+      color: var(--dark);
+      transform: translateY(-3px) scale(1.1);
+      box-shadow: 0 6px 16px rgba(0,0,0,0.25);
+      animation: bounce 0.4s ease;
+    }
+
+    @keyframes bounce {
+      0%   { transform: translateY(0) scale(1); }
+      30%  { transform: translateY(-4px) scale(1.1); }
+      60%  { transform: translateY(2px) scale(0.95); }
+      100% { transform: translateY(-3px) scale(1.1); }
+    }
+
+    .map-container {
+      position: relative;
+      width: 100%;
+      padding-bottom: 56.25%;
+      border-radius: 10px;
+      overflow: hidden;
+      margin-top: 1.5rem;
+      box-shadow: 0 4px 12px rgba(0,0,0,0.2);
+    }
+
+    .map-container iframe {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      border: 0;
+    }
+
+    .contact-form-container h3 {
+      font-family: 'Poppins', sans-serif;
+      margin-bottom: 1.2rem;
+      font-size: 1.4rem;
+    }
+
+    .form-group {
+      margin-bottom: 1rem;
+    }
+
+    label {
+      display: block;
+      margin-bottom: 0.4rem;
+      font-weight: 600;
+      font-size: 0.9rem;
+    }
+
+    input, select, textarea {
+      width: 100%;
+      padding: 12px;
+      border: 1px solid var(--gray);
+      border-radius: 8px;
+      background: var(--gray);
+      font-family: 'Lato', sans-serif;
+      font-size: 0.95rem;
+      transition: 0.3s;
+      box-sizing: border-box;
+    }
+
+    input:focus, select:focus, textarea:focus {
+      border-color: var(--primary);
+      background: #fff;
+      outline: none;
+    }
+
+    .form-actions {
+      margin-top: 1rem;
+    }
+
+    .btn {
+      width: 100%;
+      padding: 12px;
+      border-radius: 8px;
+      border: none;
+      cursor: pointer;
+      background: var(--primary);
+      color: #fff;
+      font-weight: 600;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      transition: 0.3s;
+      font-size: 1rem;
+    }
+
+    .btn:hover {
+      background: #A0172A;
+    }
+
+    .spinner {
+      display: none;
+      width: 18px;
+      height: 18px;
+      border: 3px solid rgba(255,255,255,0.4);
+      border-top: 3px solid #fff;
+      border-radius: 50%;
+      animation: spin 0.8s linear infinite;
+      margin-left: 10px;
+    }
+
+    @keyframes spin { to { transform: rotate(360deg); } }
+
+    /* Toast Container */
+    #toastContainer {
+      position: fixed;
+      top: 20px;
+      right: 20px;
+      z-index: 9999;
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+      align-items: flex-end;
+    }
+
+    /* Toast styles */
+    .toast {
+      min-width: 260px;
+      padding: 12px 16px;
+      border-radius: 8px;
+      font-size: 0.95rem;
+      font-weight: 500;
+      box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+      opacity: 0;
+      transform: translateX(100%);
+      transition: all 0.5s ease-in-out;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+
+    .toast.success { background: #d4edda; color: #155724; border-left: 5px solid #28a745; }
+    .toast.error   { background: #f8d7da; color: #721c24; border-left: 5px solid #dc3545; }
+    .toast.warning { background: #fff3cd; color: #856404; border-left: 5px solid #ffc107; }
+
+    .toast i { font-size: 1.2rem; }
+
+    .toast.show { opacity: 1; transform: translateX(0); }
+    .toast.hide { opacity: 0; transform: translateX(100%); }
+    .toast.slide-up { opacity: 0; transform: translateY(-20px); }
+
+    .toast .close-btn {
+      margin-left: auto;
+      background: transparent;
+      border: none;
+      font-size: 1.2rem;
+      cursor: pointer;
+      color: inherit;
+      transition: transform 0.2s ease;
+    }
+    .toast .close-btn:hover { transform: scale(1.2); color: #000; }
+
+    /* Mobile adjustments */
+    @media(max-width: 600px) {
+      .section-title { font-size: 1.6rem; }
+      .contact-grid { padding: 1rem; }
+      input, select, textarea { font-size: 0.9rem; padding: 10px; }
+      .btn { font-size: 0.95rem; padding: 10px; }
+      .toast { min-width: 220px; font-size: 0.85rem; }
+    }
+  </style>
+</head>
+<body>
+
+  <section class="contact-section">
+    <div class="container">
+      <h2 class="section-title">Get in Touch</h2>
+      <p class="section-subtitle">We're here to answer your questions about admissions and our programs.</p>
+
+      <div class="contact-grid">
+        <!-- Left: Info -->
+        <div class="contact-info-card">
+          <h3>Contact Information</h3>
+          <p><i class="fas fa-map-marker-alt"></i> SRTTC, Kamshet, Pune, MH 410405</p>
+          <p><i class="fas fa-phone"></i> +91 12345 67890</p>
+          <p><i class="fas fa-envelope"></i> admissions@srttc.ac.in</p>
+
+          <!-- Social Media -->
+          <div class="social-icons">
+            <a href="https://www.facebook.com/profile.php?id=100009512947239" target="_blank" class="social-icon"><i class="fab fa-facebook-f"></i></a>
+            <a href="https://x.com/SumanPune" target="_blank" class="social-icon"><i class="fab fa-twitter"></i></a>
+            <a href="https://www.instagram.com/srttc_official?utm_source=ig_web_button_share_sheet&igsh=ZDNlZDc0MzIxNw==" target="_blank" class="social-icon"><i class="fab fa-instagram"></i></a>
+            <a href="https://www.linkedin.com/in/srttc-tpo/" target="_blank" class="social-icon"><i class="fab fa-linkedin-in"></i></a>
+          </div>
+
+          <!-- Map -->
+          <div class="map-container">
+            <iframe 
+              src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3777.949203993649!2d73.53203557496896!3d18.75580583238394!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x3bc2abbfeb8600bb%3A0x4669673f97336d33!2sSuman%20Ramesh%20Tulsiani%20College%20Of%20Engineering%2C%20Maharashtra%20410405!5e0!3m2!1sen!2sin!4v1755778521218!5m2!1sen!2sin" 
+              allowfullscreen="" loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe>
+          </div>
+        </div>
+
+        <!-- Right: Form -->
+        <div class="contact-form-container">
+          <h3>Send Us an Inquiry</h3>
+          <form id="contactForm">
+            <!-- Hidden fields for FormSubmit -->
+            <input type="hidden" name="_subject" value="New Inquiry from SRTTC Website">
+            <input type="hidden" name="_captcha" value="false">
+            <input type="text" name="_honey" style="display:none">
+
+            <div class="form-group">
+              <label for="name">Full Name</label>
+              <input type="text" id="name" name="name" placeholder="John Doe" required>
+            </div>
+            <div class="form-group">
+              <label for="email">Email Address</label>
+              <input type="email" id="email" name="email" placeholder="your.email@example.com" required>
+            </div>
+            <div class="form-group">
+              <label for="phone">Phone Number</label>
+              <input type="tel" id="phone" name="phone" placeholder="+91 98765 43210">
+            </div>
+            <div class="form-group">
+              <label for="course">Course of Interest</label>
+              <select id="course" name="course" required>
+                <option value="" disabled selected>Select a course</option>
+                <option value="Computer Engineering">Computer Engineering</option>
+                <option value="Mechanical Engineering">Mechanical Engineering</option>
+                <option value="Electrical Engineering">Electrical Engineering</option>
+                <option value="Civil Engineering">Civil Engineering</option>
+                <option value="Chemical Engineering">Chemical Engineering</option>
+              </select>
+            </div>
+            <div class="form-group">
+              <label for="message">Your Message</label>
+              <textarea id="message" name="message" rows="5" placeholder="Tell us about your inquiry..." required></textarea>
+            </div>
+            <div class="form-actions">
+              <button type="submit" class="btn" id="submitBtn">
+                <span class="btn-text">Submit Inquiry</span>
+                <span class="spinner" id="spinner"></span>
+              </button>
+            </div>
+          </form>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Toast container -->
+  <div id="toastContainer"></div>
+
+  <script>
+    document.addEventListener("DOMContentLoaded", function () {
+      const form = document.getElementById("contactForm");
+      const submitBtn = document.getElementById("submitBtn");
+      const spinner = document.getElementById("spinner");
+      const btnText = submitBtn.querySelector(".btn-text");
+      const toastContainer = document.getElementById("toastContainer");
+
+      // Function to show toast notifications
+      function showToast(message, type = "success") {
+        const toast = document.createElement("div");
+        toast.className = `toast ${type}`;
+
+        const icon = document.createElement("i");
+        if (type === "success") icon.className = "fas fa-check-circle";
+        else if (type === "error") icon.className = "fas fa-times-circle";
+        else if (type === "warning") icon.className = "fas fa-exclamation-triangle";
+
+        const text = document.createElement("span");
+        text.textContent = message;
+
+        const closeBtn = document.createElement("button");
+        closeBtn.className = "close-btn";
+        closeBtn.innerHTML = "&times;";
+        closeBtn.addEventListener("click", () => removeToast(toast));
+
+        toast.appendChild(icon);
+        toast.appendChild(text);
+        toast.appendChild(closeBtn);
+
+        toastContainer.prepend(toast);
+
+        setTimeout(() => toast.classList.add("show"), 50);
+        setTimeout(() => removeToast(toast), 5000);
+      }
+
+      function removeToast(toast) {
+        toast.classList.remove("show");
+        toast.classList.add("slide-up");
+        setTimeout(() => toast.remove(), 500);
+      }
+
+      // Listen for the form submission
+      form.addEventListener("submit", async function (e) {
+        e.preventDefault(); // Prevent the default form submission
+
+        // --- FormSubmit.co Integration ---
+        
+        // IMPORTANT: Replace with your email address
+        const targetEmail = 'admissioninsrttc@gmail.com';
+        const endpoint = 'https://formsubmit.co/ajax/' + targetEmail;
+
+        // Validation
+        if (!form.course.value) {
+          showToast("⚠️ Please select a course before submitting.", "warning");
+          return;
+        }
+
+        // Update UI to show loading state
+        submitBtn.disabled = true;
+        spinner.style.display = "inline-block";
+        btnText.textContent = "Sending...";
+
+        // Collect form data
+        const formData = new FormData(form);
+
+        try {
+          const response = await fetch(endpoint, {
+            method: 'POST',
+            body: formData,
+            headers: {
+              'Accept': 'application/json'
+            }
+          });
+
+          if (!response.ok) {
+            throw new Error('Network response was not ok.');
+          }
+
+          const data = await response.json();
+          console.log(data); // You can see the response from FormSubmit in the console
+          
+          showToast("✅ Success! Redirecting...", "success");
+          
+          // Redirect to a thank you page after a short delay
+          setTimeout(() => {
+            window.location.href = 'thankyou.html';
+          }, 1500); // 1.5 second delay
+
+        } catch (error) {
+          console.error("Form submission error:", error);
+          showToast("❌ Failed to send inquiry. Please try again.", "error");
+        } finally {
+          // Revert the button back to its original state
+          submitBtn.disabled = false;
+          spinner.style.display = "none";
+          btnText.textContent = "Submit Inquiry";
+        }
+      });
+    });
+  </script>
+</body>
+</html>

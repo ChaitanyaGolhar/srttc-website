@@ -1,0 +1,696 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Modern Sidebar Navigation</title>
+    <!-- Google Fonts: Inter -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" 
+    rel="stylesheet">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200" />
+    <style>
+        /* --- CSS Variables for Theming --- */
+        :root {
+            --primary-red: #E63946;
+            --primary-orange: #F87171;
+            --primary-yellow: #FBBF24;
+            --bg-light: #FFF9E6;
+            --bg-white: #FFFFFF;
+            --bg-cream: #FDF6E3;
+            --text-dark: #111827;
+            --text-gray: #6B7280;
+            --text-light: #FFFFFF;
+            --accent-pink: #D946EF;
+
+            /* Mapping to component styles */
+            --sidebar-bg: var(--bg-white);
+            --sidebar-text: var(--text-gray);
+            --sidebar-hover-bg: var(--bg-cream);
+            --sidebar-active-bg: var(--primary-red);
+            --sidebar-active-text: var(--text-light);
+            --sidebar-border: var(--bg-cream);
+            --content-bg: var(--bg-light);
+            --content-text: var(--text-dark);
+            --header-text: var(--text-dark);
+            --icon-color: var(--text-gray);
+            --icon-active-color: var(--text-light);
+            --input-bg: var(--bg-cream);
+            --input-border: #e5e7eb;
+            --input-text: var(--text-dark);
+            --badge-bg: var(--primary-orange);
+            --badge-text: var(--text-light);
+            --shadow-color: rgba(0, 0, 0, 0.05);
+            --focus-ring-color: var(--primary-red);
+        }
+
+        .dark {
+            --sidebar-bg: #1f2937;
+            --sidebar-text: #d1d5db;
+            --sidebar-hover-bg: #374151;
+            --sidebar-active-bg: var(--primary-red);
+            --sidebar-active-text: var(--text-light);
+            --sidebar-border: #374151;
+            --content-bg: #111827;
+            --content-text: #d1d5db;
+            --header-text: #f9fafb;
+            --icon-color: #9ca3af;
+            --icon-active-color: var(--text-light);
+            --input-bg: #374151;
+            --input-border: #4b5563;
+            --input-text: #f9fafb;
+            --shadow-color: rgba(0, 0, 0, 0.2);
+        }
+
+        /* --- General Styles --- */
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: var(--content-bg);
+            color: var(--content-text);
+            transition: background-color 0.3s ease, color 0.3s ease;
+            overflow-x: hidden;
+        }
+
+        a {
+            text-decoration: none;
+            color: inherit;
+        }
+
+        ul {
+            list-style: none;
+        }
+
+        button {
+            background: none;
+            border: none;
+            cursor: pointer;
+        }
+
+        .hidden {
+            display: none;
+        }
+
+        /* --- Sidebar --- */
+        #sidebar {
+            position: fixed;
+            top: 0;
+            left: 0;
+            height: 100%;
+            width: 256px;
+            background-color: var(--sidebar-bg);
+            border-right: 1px solid var(--sidebar-border);
+            display: flex;
+            flex-direction: column;
+            z-index: 50;
+            transition: width 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+
+        #sidebar.collapsed {
+            width: 80px;
+        }
+
+        .sidebar-header {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 1rem;
+            height: 4rem;
+            border-bottom: 1px solid var(--sidebar-border);
+            transition: justify-content 0.3s ease;
+        }
+        
+        .logo-container {
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+        }
+
+        .logo-container svg {
+            width: 2rem;
+            height: 2rem;
+            color: var(--primary-red);
+        }
+        
+        .logo-text {
+            font-size: 1.25rem;
+            font-weight: 700;
+            color: var(--header-text);
+            white-space: nowrap;
+            overflow: hidden;
+            transition: opacity 0.2s ease, width 0.2s ease;
+        }
+        
+        #sidebar-toggle {
+            padding: 0.5rem;
+            border-radius: 0.375rem;
+            color: var(--sidebar-text);
+        }
+        
+        #sidebar-toggle svg {
+            width: 1.5rem;
+            height: 1.5rem;
+        }
+
+        /* --- Search Bar --- */
+        .search-container {
+            padding: 1rem;
+        }
+        .search-wrapper {
+            position: relative;
+        }
+        .search-wrapper svg {
+            position: absolute;
+            top: 50%;
+            left: 0.75rem;
+            transform: translateY(-50%);
+            width: 1.25rem;
+            height: 1.25rem;
+            color: var(--icon-color);
+        }
+        #search-input {
+            width: 100%;
+            padding: 0.5rem 1rem 0.5rem 2.5rem;
+            border-radius: 0.5rem;
+            border: 1px solid var(--input-border);
+            background-color: var(--input-bg);
+            color: var(--input-text);
+            outline: none;
+            transition: opacity 0.2s ease, width 0.2s ease;
+        }
+        #search-input:focus {
+            box-shadow: 0 0 0 2px var(--focus-ring-color);
+        }
+
+        /* --- Navigation Links --- */
+        #nav-links {
+            flex-grow: 1;
+            padding: 0 1rem;
+            overflow-y: auto;
+            display: flex;
+            flex-direction: column;
+            gap: 0.5rem;
+            -ms-overflow-style: none;
+            scrollbar-width: none;
+        }
+        
+        #nav-links::-webkit-scrollbar {
+            display: none;
+        }
+
+        .nav-link {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 0.75rem;
+            border-radius: 0.5rem;
+            color: var(--sidebar-text);
+            fill: var(--icon-color);
+            transition: background-color 0.2s ease, color 0.2s ease;
+        }
+        .nav-link:hover {
+            background-color: var(--sidebar-hover-bg);
+        }
+        .nav-link.active {
+            background-color: var(--sidebar-active-bg);
+            color: var(--sidebar-active-text);
+            font-weight: 600;
+            fill: var(--icon-active-color);
+        }
+        .nav-link-content {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+        }
+        .nav-link svg {
+            width: 1.5rem;
+            height: 1.5rem;
+            flex-shrink: 0;
+        }
+        .nav-text {
+            white-space: nowrap;
+            overflow: hidden;
+            transition: opacity 0.2s ease, width 0.2s ease;
+        }
+        
+        /* --- Sidebar Footer --- */
+        .sidebar-footer {
+            padding: 1rem;
+            border-top: 1px solid var(--sidebar-border);
+        }
+        .footer-content {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            transition: all 0.3s ease;
+        }
+        .theme-container {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+        }
+        #theme-toggle {
+            padding: 0.5rem;
+            border-radius: 0.375rem;
+            color: var(--sidebar-text);
+        }
+        #theme-toggle svg {
+            width: 1.5rem;
+            height: 1.5rem;
+        }
+        .logout-link {
+            padding: 0.5rem;
+        }
+
+        /* --- Collapsed State Adjustments --- */
+        #sidebar.collapsed .sidebar-header {
+            justify-content: center;
+        }
+        #sidebar.collapsed .logo-container {
+            display: none;
+        }
+        #sidebar.collapsed .nav-text,
+        #sidebar.collapsed #search-input {
+            opacity: 0;
+            width: 0;
+            pointer-events: none;
+        }
+        #sidebar.collapsed .footer-content {
+            flex-direction: column;
+            align-items: center;
+            gap: 1rem;
+        }
+        #sidebar.collapsed .theme-container {
+            gap: 0;
+        }
+
+        /* --- Main Content --- */
+        #main-content {
+            width: 100%;
+            padding-left: 256px;
+            transition: padding-left 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+
+        #sidebar.collapsed + #main-content {
+            padding-left: 80px;
+        }
+
+        .content-wrapper {
+            padding: 1rem 2rem;
+        }
+        
+        .content-section {
+            display: none;
+            animation: fadeIn 0.5s ease-in-out;
+        }
+        
+        .content-section.active {
+            display: block;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .page-title {
+            font-size: 1.875rem;
+            font-weight: 700;
+            margin-bottom: 1.5rem;
+            color: var(--header-text);
+        }
+
+        .card {
+            padding: 1.5rem;
+            border-radius: 0.5rem;
+            box-shadow: 0 1px 3px 0 var(--shadow-color), 0 1px 2px -1px var(--shadow-color);
+            background-color: var(--sidebar-bg);
+        }
+        
+        .card-title {
+            font-size: 1.125rem;
+            font-weight: 600;
+            margin-bottom: 0.5rem;
+            color: var(--sidebar-text);
+        }
+        
+        /* --- Mobile Header --- */
+        #mobile-header {
+            display: none; /* Hidden by default */
+            align-items: center;
+            justify-content: space-between;
+            padding: 1rem;
+            height: 4rem;
+            border-bottom: 1px solid var(--sidebar-border);
+            background-color: var(--sidebar-bg);
+        }
+        #mobile-menu-button {
+            padding: 0.5rem;
+            border-radius: 0.375rem;
+            color: var(--sidebar-text);
+        }
+        #mobile-menu-button svg {
+            width: 1.5rem;
+            height: 1.5rem;
+        }
+        .mobile-logo {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+        .mobile-logo svg {
+            width: 1.75rem;
+            height: 1.75rem;
+            color: var(--indigo-500);
+        }
+        .mobile-logo span {
+            font-size: 1.125rem;
+            font-weight: 700;
+            color: var(--header-text);
+        }
+        #mobile-overlay {
+            position: fixed;
+            inset: 0;
+            background-color: rgba(0, 0, 0, 0.5);
+            z-index: 30;
+        }
+
+        /* --- Responsive Styles --- */
+        @media (min-width: 768px) {
+            #sidebar-toggle {
+                display: block;
+            }
+        }
+        
+        @media (max-width: 767px) {
+            #sidebar {
+                transform: translateX(-100%);
+                transition: transform 0.3s ease-in-out;
+            }
+            #sidebar.open {
+                transform: translateX(0);
+            }
+            #sidebar.collapsed {
+                width: 256px; /* Revert to full width on mobile when open */
+            }
+            #sidebar.collapsed .nav-text,
+            #sidebar.collapsed .logo-text,
+            #sidebar.collapsed #search-input {
+                 opacity: 1;
+                 width: auto;
+                 pointer-events: auto;
+            }
+            #main-content {
+                padding-left: 0;
+            }
+            #sidebar.collapsed + #main-content {
+                padding-left: 0;
+            }
+            #mobile-header {
+                display: flex;
+            }
+            #sidebar-toggle {
+                display: none;
+            }
+        }
+
+    </style>
+</head>
+<body>
+
+    <!-- Sidebar Navigation -->
+    <nav id="sidebar">
+        <!-- Logo and Toggle Button -->
+        <div class="sidebar-header">
+            <div class="logo-container">
+                 <img src="../images/logo.png" alt="" style="width: 40px;">
+                <span class="logo-text">SRTTC</span>
+            </div>
+            <button id="sidebar-toggle" aria-label="Toggle sidebar">
+                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+                    <path stroke-linecap="round" stroke-linejoin="round" d="M4 6h16M4 12h16M4 18h16" />
+                </svg>
+            </button>
+        </div>
+
+        <!-- Search Bar -->
+        <div class="search-container">
+            <div class="search-wrapper">
+                <svg viewBox="0 0 20 20" fill="currentColor">
+                    <path fill-rule="evenodd" d="M8 4a4 4 0 100 8 4 4 0 000-8zM2 8a6 6 0 1110.89 3.476l4.817 4.817a1 1 0 01-1.414 1.414l-4.816-4.816A6 6 0 012 8z" clip-rule="evenodd" />
+                </svg>
+                <input id="search-input" type="text" placeholder="Search...">
+            </div>
+        </div>
+
+        <!-- Navigation Links -->
+        <ul id="nav-links">
+             <li>
+                <a href="#" class="nav-link" data-target="placements">
+                    <div class="nav-link-content">
+                        <span class="material-symbols-outlined">work</span>
+                        <span class="nav-text">Placements</span>
+                    </div>
+                </a>
+            </li>
+            <li>
+                <a href="#" class="nav-link" data-target="vision-mission">
+                    <div class="nav-link-content">
+                        <span class="material-symbols-outlined">visibility</span>
+                        <span class="nav-text">Vision and Mission</span>
+                    </div>
+                </a>
+            </li>
+            <li>
+                <a href="#" class="nav-link" data-target="pre-placement-training">
+                    <div class="nav-link-content">
+                        <span class="material-symbols-outlined">model_training</span>
+                        <span class="nav-text">Placement Training</span>
+                    </div>
+                </a>
+            </li>
+            <li>
+                <a href="#" class="nav-link" data-target="internship-training">
+                    <div class="nav-link-content">
+                        <span class="material-symbols-outlined">integration_instructions</span>
+                        <span class="nav-text">Internship Training</span>
+                    </div>
+                </a>
+            </li>
+            <li>
+                <a href="#" class="nav-link" data-target="drives">
+                    <div class="nav-link-content">
+                        <span class="material-symbols-outlined">campaign</span>
+                        <span class="nav-text">Drives</span>
+                    </div>
+                </a>
+            </li>
+            <li>
+                <a href="#" class="nav-link" data-target="internship-policies">
+                    <div class="nav-link-content">
+                        <span class="material-symbols-outlined">gavel</span>
+                        <span class="nav-text">Internship Policies</span>
+                    </div>
+                </a>
+            </li>
+        </ul>
+
+        <!-- Footer: Theme Toggle and Logout -->
+        <div class="sidebar-footer">
+            <div class="footer-content">
+                <div class="theme-container">
+                    <button id="theme-toggle" aria-label="Toggle theme">
+                        <svg id="theme-icon-light" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2.25a.75.75 0 0 1 .75.75v2.25a.75.75 0 0 1-1.5 0V3a.75.75 0 0 1 .75-.75ZM7.5 12a4.5 4.5 0 1 1 9 0 4.5 4.5 0 0 1-9 0ZM18.894 6.106a.75.75 0 0 1 0 1.06l-1.591 1.592a.75.75 0 0 1-1.06-1.061l1.591-1.591a.75.75 0 0 1 1.06 0ZM21.75 12a.75.75 0 0 1-.75.75h-2.25a.75.75 0 0 1 0-1.5h2.25a.75.75 0 0 1 .75.75ZM17.803 17.803a.75.75 0 0 1-1.06 0l-1.591-1.591a.75.75 0 1 1 1.06-1.06l1.591 1.591a.75.75 0 0 1 0 1.06ZM12 21a.75.75 0 0 1-.75-.75v-2.25a.75.75 0 0 1 1.5 0v2.25a.75.75 0 0 1-.75.75ZM4.496 6.106a.75.75 0 0 1 1.06 0l1.591 1.592a.75.75 0 0 1-1.06 1.06L4.496 7.166a.75.75 0 0 1 0-1.06ZM3 12a.75.75 0 0 1 .75-.75h2.25a.75.75 0 0 1 0 1.5H3.75A.75.75 0 0 1 3 12ZM6.106 17.803a.75.75 0 0 1 0-1.06l1.591-1.591a.75.75 0 1 1 1.06 1.06l-1.591 1.591a.75.75 0 0 1-1.06 0Z"></path></svg>
+                        <svg id="theme-icon-dark" class="hidden" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor"><path fill-rule="evenodd" d="M9.528 1.718a.75.75 0 0 1 .162.819A8.97 8.97 0 0 0 9 6a9 9 0 0 0 9 9 8.97 8.97 0 0 0 3.463-.69.75.75 0 0 1 .981.981A10.503 10.503 0 0 1 12 22.5a10.5 10.5 0 0 1-10.5-10.5c0-4.368 2.667-8.112 6.46-9.672a.75.75 0 0 1 .818.162Z" clip-rule="evenodd"></path></svg>
+                    </button>
+                    <span class="nav-text">Theme</span>
+                </div>
+                <a href="#" class="nav-link logout-link" data-target="logout">
+                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor"><path fill-rule="evenodd" d="M7.5 3.75A1.5 1.5 0 0 0 6 5.25v13.5a1.5 1.5 0 0 0 1.5 1.5h6a1.5 1.5 0 0 0 1.5-1.5V15a.75.75 0 0 1 1.5 0v3.75a3 3 0 0 1-3 3h-6a3 3 0 0 1-3-3V5.25a3 3 0 0 1 3-3h6a3 3 0 0 1 3 3V9A.75.75 0 0 1 15 9V5.25a1.5 1.5 0 0 0-1.5-1.5h-6Zm10.72 4.72a.75.75 0 0 1 1.06 0l3 3a.75.75 0 0 1 0 1.06l-3 3a.75.75 0 1 1-1.06-1.06l1.72-1.72H9a.75.75 0 0 1 0-1.5h10.94l-1.72-1.72a.75.75 0 0 1 0-1.06Z" clip-rule="evenodd"></path></svg>
+                    <span class="nav-text">Logout</span>
+                </a>
+            </div>
+        </div>
+    </nav>
+    
+    <!-- Mobile Header and Overlay -->
+    <div id="mobile-overlay" class="hidden"></div>
+    
+    <!-- Main Content -->
+    <main id="main-content">
+        <header id="mobile-header">
+            <button id="mobile-menu-button" aria-label="Open menu">
+                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+                    <path stroke-linecap="round" stroke-linejoin="round" d="M4 6h16M4 12h8m-8 6h16" />
+                </svg>
+            </button>
+            <div class="mobile-logo">
+                 <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor">
+                    <path stroke-linecap="round" stroke-linejoin="round" d="M3.75 13.5l10.5-11.25L12 10.5h8.25L9.75 21.75 12 13.5H3.75z" />
+                </svg>
+                <span>Admin UI</span>
+            </div>
+        </header>
+        
+        <div class="content-wrapper">
+            <!-- Content Sections -->
+            <section id="placements" class="content-section">
+                <h1 class="page-title">Placements</h1>
+                <div class="card"><p>Placement information will be displayed here.</p></div>
+            </section>
+            <section id="vision-mission" class="content-section">
+                <h1 class="page-title">Vision and Mission</h1>
+                <div class="card"><p>Vision and Mission statements will be displayed here.</p></div>
+            </section>
+            <section id="pre-placement-training" class="content-section">
+                <h1 class="page-title">Pre-placement Training</h1>
+                <div class="card"><p>Details about pre-placement training will be displayed here.</p></div>
+            </section>
+            <section id="internship-training" class="content-section">
+                <h1 class="page-title">Internship Training Program</h1>
+                <div class="card"><p>Information on the internship training program.</p></div>
+            </section>
+            <section id="drives" class="content-section">
+                <h1 class="page-title">Drives</h1>
+                <div class="card"><p>Information about placement drives.</p></div>
+            </section>
+            <section id="internship-policies" class="content-section">
+                <h1 class="page-title">Internship Policies</h1>
+                <div class="card"><p>Details about internship policies.</p></div>
+            </section>
+            
+            <!-- Logout Content -->
+            <section id="logout" class="content-section">
+                <h1 class="page-title">Logged Out</h1>
+                 <div class="card">
+                    <p>You have been successfully logged out.</p>
+                </div>
+            </section>
+        </div>
+    </main>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            // --- DOM Element Selectors ---
+            const sidebar = document.getElementById('sidebar');
+            const sidebarToggle = document.getElementById('sidebar-toggle');
+            const mobileMenuButton = document.getElementById('mobile-menu-button');
+            const mobileOverlay = document.getElementById('mobile-overlay');
+            const navLinks = document.querySelectorAll('.nav-link');
+            const contentSections = document.querySelectorAll('.content-section');
+            const searchInput = document.getElementById('search-input');
+            const themeToggle = document.getElementById('theme-toggle');
+            const themeIconLight = document.getElementById('theme-icon-light');
+            const themeIconDark = document.getElementById('theme-icon-dark');
+
+            // --- State Management ---
+            const LOCAL_STORAGE_KEYS = {
+                activeSection: 'sidebar-active-section',
+                theme: 'sidebar-theme',
+                sidebarCollapsed: 'sidebar-collapsed'
+            };
+
+            // --- Functions ---
+
+            /**
+             * Switches the visible content section.
+             * @param {string} targetId - The ID of the content section to show.
+             */
+            const switchContent = (targetId) => {
+                contentSections.forEach(section => section.classList.remove('active'));
+                navLinks.forEach(link => link.classList.remove('active'));
+
+                const targetSection = document.getElementById(targetId);
+                const targetLink = document.querySelector(`.nav-link[data-target="${targetId}"]`);
+
+                if (targetSection) targetSection.classList.add('active');
+                if (targetLink) targetLink.classList.add('active');
+
+                localStorage.setItem(LOCAL_STORAGE_KEYS.activeSection, targetId);
+                
+                if (window.innerWidth < 768) {
+                    sidebar.classList.remove('open');
+                    mobileOverlay.classList.add('hidden');
+                }
+            };
+
+            /**
+             * Filters navigation links based on search input.
+             */
+            const filterNavLinks = () => {
+                const searchTerm = searchInput.value.toLowerCase();
+                document.querySelectorAll('#nav-links li').forEach(li => {
+                    const linkText = li.querySelector('.nav-text').textContent.toLowerCase();
+                    li.style.display = linkText.includes(searchTerm) ? 'block' : 'none';
+                });
+            };
+
+            /**
+             * Toggles the theme between light and dark mode.
+             * @param {string} [theme] - Optional theme to set ('light' or 'dark').
+             */
+            const toggleTheme = (theme) => {
+                const newTheme = theme || (document.documentElement.classList.contains('dark') ? 'light' : 'dark');
+                document.documentElement.classList.toggle('dark', newTheme === 'dark');
+                themeIconLight.classList.toggle('hidden', newTheme === 'dark');
+                themeIconDark.classList.toggle('hidden', newTheme === 'light');
+                localStorage.setItem(LOCAL_STORAGE_KEYS.theme, newTheme);
+            };
+
+            /**
+             * Toggles the sidebar collapsed state.
+             */
+            const toggleSidebar = () => {
+                sidebar.classList.toggle('collapsed');
+                localStorage.setItem(LOCAL_STORAGE_KEYS.sidebarCollapsed, sidebar.classList.contains('collapsed'));
+            };
+
+            // --- Event Listeners ---
+            if (sidebarToggle) sidebarToggle.addEventListener('click', toggleSidebar);
+            if (mobileMenuButton) {
+                mobileMenuButton.addEventListener('click', () => {
+                    sidebar.classList.toggle('open');
+                    mobileOverlay.classList.toggle('hidden');
+                });
+            }
+            if (mobileOverlay) {
+                mobileOverlay.addEventListener('click', () => {
+                    sidebar.classList.remove('open');
+                    mobileOverlay.classList.add('hidden');
+                });
+            }
+            navLinks.forEach(link => {
+                link.addEventListener('click', (e) => {
+                    e.preventDefault();
+                    const targetId = link.dataset.target;
+                    if (targetId) switchContent(targetId);
+                });
+            });
+            if (searchInput) searchInput.addEventListener('input', filterNavLinks);
+            if (themeToggle) themeToggle.addEventListener('click', () => toggleTheme());
+
+            // --- Initialization ---
+            const initialize = () => {
+                const savedTheme = localStorage.getItem(LOCAL_STORAGE_KEYS.theme) || 'light';
+                toggleTheme(savedTheme);
+
+                const isCollapsed = localStorage.getItem(LOCAL_STORAGE_KEYS.sidebarCollapsed) === 'true';
+                if (isCollapsed && window.innerWidth >= 768) {
+                    sidebar.classList.add('collapsed');
+                }
+
+                const savedSection = localStorage.getItem(LOCAL_STORAGE_KEYS.activeSection) || 'placements';
+                switchContent(savedSection);
+            };
+
+            initialize();
+        });
+    </script>
+</body>
+</html>

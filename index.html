@@ -6,6 +6,7 @@
     <title>SRTTC - Official Website</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800&family=Lato:wght@300;400;700&display=swap" rel="stylesheet">
+    <script src="data.js"></script>
     <style>
         /* General Setup and Variables */
         :root {
@@ -285,22 +286,226 @@
         .mt-8 { margin-top: 2rem; }
         
         /* Testimonials */
-        .testimonial-slider { overflow: hidden; position: relative; }
-        .testimonial-track { display: flex; transition: transform 0.5s ease; }
-        .testimonial { min-width: 100%; padding: 20px; }
-        .testimonial-content { max-width: 48rem; margin-left: auto; margin-right: auto; text-align: center; }
-        .quote-icon { font-size: 2.25rem; line-height: 2.5rem; color: var(--primary); margin-bottom: 1.5rem; }
-        .quote-text { font-size: 1.25rem; line-height: 1.75rem; font-style: italic; margin-bottom: 1.5rem; }
-        .author-info { display: flex; align-items: center; justify-content: center; }
-        .author-img { width: 4rem; height: 4rem; border-radius: 9999px; margin-right: 1rem; }
-        .author-details { text-align: left; }
-        .author-name { font-weight: 600; }
-        .author-major { color: var(--text-gray); }
-        .testimonial-dots { display: flex; justify-content: center; margin-top: 2rem; }
-        .testimonial-dots > :not([hidden]) ~ :not([hidden]) { margin-left: 0.5rem; /* space-x-2 */ }
-        .slider-dot { width: 0.75rem; height: 0.75rem; border-radius: 9999px; cursor: pointer; border: none; }
-        .dot-active { background-color: var(--primary); }
-        .dot-inactive { background-color: #D1D5DB; }
+           /* .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 80px 20px;
+        } */
+
+        /* Section Header Styling */
+        .section-header {
+            text-align: center;
+            margin-bottom: 60px;
+            color: #333;
+            position: relative;
+            animation: fadeInUp 0.8s ease-out;
+        }
+
+        .section-header h2 {
+            font-size: 3rem;
+            font-weight: 700;
+            margin-bottom: 16px;
+            color: #c00000;
+            position: relative;
+            display: inline-block;
+        }
+
+        .section-header h2::after {
+            content: '';
+            position: absolute;
+            bottom: -8px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 80px;
+            height: 4px;
+            background: linear-gradient(90deg, #c00000, #FFD700);
+            border-radius: 2px;
+        }
+
+        .section-header p {
+            font-size: 1.2rem;
+            font-weight: 400;
+            color: #555;
+            max-width: 600px;
+            margin: 24px auto 0;
+        }
+
+        /* Testimonials Container and Rows */
+        .testimonials-container {
+            display: flex;
+            flex-direction: column;
+            gap: 40px;
+        }
+
+        .row {
+            position: relative;
+            height: 320px;
+            overflow: hidden;
+            border-radius: 16px;
+            padding: 20px 0;
+        }
+        
+        /* Pause animation on hover */
+        .row:hover .row-wrapper {
+            animation-play-state: paused;
+        }
+
+        .row-wrapper {
+            display: flex;
+            position: absolute;
+            top: 0;
+            left: 0;
+            height: 100%;
+            animation-duration: 40s; /* Slower animation for better readability */
+            animation-timing-function: linear;
+            animation-iteration-count: infinite;
+        }
+
+        .top-row .row-wrapper {
+            animation-name: slideLeft;
+        }
+
+        .bottom-row .row-wrapper {
+            animation-name: slideRight;
+        }
+
+        /* Testimonial Card Styling */
+        .testimonial-card {
+            background: white;
+            border-radius: 16px;
+            padding: 24px;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.08);
+            transition: all 0.3s ease;
+            position: relative;
+            overflow: hidden;
+            width: 280px;
+            height: 280px;
+            margin: 0 20px;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+            flex-shrink: 0; /* Prevent cards from shrinking */
+        }
+
+        .testimonial-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 4px;
+            background: linear-gradient(90deg, #c00000, #FFD700);
+        }
+
+        .testimonial-card:hover {
+            transform: translateY(-10px) scale(1.03);
+            box-shadow: 0 10px 25px rgba(0,0,0,0.12);
+            z-index: 10;
+        }
+
+        .quote-icon {
+            font-size: 1.5rem;
+            color: #FFD700;
+            margin-bottom: 12px;
+            opacity: 0.8;
+        }
+
+        .testimonial-text {
+            font-size: 0.95rem;
+            line-height: 1.6;
+            color: #333;
+            margin-bottom: 16px;
+            font-style: italic;
+            flex-grow: 1;
+            overflow: hidden;
+            display: -webkit-box;
+            -webkit-line-clamp: 6;
+            -webkit-box-orient: vertical;
+        }
+
+        .testimonial-author {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            padding-top: 12px;
+            border-top: 1px solid #f0f0f0;
+        }
+
+        .author-avatar {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            object-fit: cover;
+            border: 2px solid #f0f0f0;
+        }
+
+        .author-info h4 {
+            font-size: 0.95rem;
+            font-weight: 600;
+            color: #333;
+            margin-bottom: 2px;
+        }
+
+        .author-info p {
+            font-size: 0.8rem;
+            color: #c00000;
+            font-weight: 500;
+        }
+
+        .shield-icon {
+            position: absolute;
+            top: 10px;
+            right: 10px;
+            width: 30px;
+            height: 30px;
+            background: #c00000;
+            border-radius: 4px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-size: 14px;
+        }
+
+        .accent-dot {
+            position: absolute;
+            width: 8px;
+            height: 8px;
+            background: #FFD700;
+            border-radius: 50%;
+            top: 12px;
+            left: 12px;
+        }
+
+        /* Keyframe Animations */
+        @keyframes slideLeft {
+            0% { transform: translateX(0); }
+            100% { transform: translateX(-50%); }
+        }
+
+        @keyframes slideRight {
+            0% { transform: translateX(-50%); }
+            100% { transform: translateX(0); }
+        }
+
+        @keyframes fadeInUp {
+            from { opacity: 0; transform: translateY(30px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        /* Responsive Design */
+        @media (max-width: 768px) {
+            .section-header h2 { font-size: 2.5rem; }
+            .container { padding: 60px 20px; }
+            .testimonial-card {
+                width: 240px;
+                height: 240px;
+                margin: 0 15px;
+                padding: 20px;
+            }
+            .testimonial-text { font-size: 0.85rem; -webkit-line-clamp: 5; }
+            .row { height: 280px; }
+        }
 
         /* Call to Action */
         .cta-section { padding-top: 5rem; padding-bottom: 5rem; color: white; background-image: linear-gradient(to right, var(--primary), var(--secondary)); }
@@ -704,22 +909,29 @@
     </section>
 
     <section class="section-py" style="background-color: var(--light);">
-        <div class="container">
-            <h2 class="section-title fade-in">What Our Students Say</h2>
-            <p class="section-subtitle fade-in">Hear from our students about their experience at SRTTC</p>
-            <div class="testimonial-slider fade-in">
-                <div class="testimonial-track">
-                    <div class="testimonial"><div class="testimonial-content"><i class="fas fa-quote-left quote-icon"></i><p class="quote-text">"SRTTC provided me with the perfect platform to explore my interests..."</p><div class="author-info"><img src="https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d" alt="Student" class="author-img"><div class="author-details"><p class="author-name">Rahul Verma</p><p class="author-major">B.Tech Computer Science</p></div></div></div></div>
-                    <div class="testimonial"><div class="testimonial-content"><i class="fas fa-quote-left quote-icon"></i><p class="quote-text">"The placement opportunities at SRTTC are exceptional..."</p><div class="author-info"><img src="https://images.unsplash.com/photo-1494790108755-2616b612b786" alt="Student" class="author-img"><div class="author-details"><p class="author-name">Priya Singh</p><p class="author-major">B.Tech Electrical Engineering</p></div></div></div></div>
-                    <div class="testimonial"><div class="testimonial-content"><i class="fas fa-quote-left quote-icon"></i><p class="quote-text">"The campus life at SRTTC is vibrant and inclusive..."</p><div class="author-info"><img src="https://images.unsplash.com/photo-1573496359142-b8d87734a5a2" alt="Student" class="author-img"><div class="author-details"><p class="author-name">Amit Patel</p><p class="author-major">MBA Technology Management</p></div></div></div></div>
+         <div class="container">
+        <div class="section-header">
+            <h2>What Our Students Say</h2>
+            <p>Hear from our talented students and alumni about their experiences at SRTTC</p>
+        </div>
+
+        <div class="testimonials-container">
+            <!-- Top Row - Slides from right to left -->
+            <div class="row top-row">
+                <div class="row-wrapper" id="top-row-wrapper">
+                    <!-- Testimonials will be dynamically inserted here -->
                 </div>
-                <div class="testimonial-dots">
-                    <button class="slider-dot dot-active" data-slide="0"></button>
-                    <button class="slider-dot dot-inactive" data-slide="1"></button>
-                    <button class="slider-dot dot-inactive" data-slide="2"></button>
+            </div>
+
+            <!-- Bottom Row - Slides from left to right -->
+            <div class="row bottom-row">
+                <div class="row-wrapper" id="bottom-row-wrapper">
+                    <!-- Testimonials will be dynamically inserted here -->
                 </div>
             </div>
         </div>
+    </div>
+
     </section>
 
     <section class="cta-section">
@@ -906,45 +1118,52 @@
         };
         setupImageSlider();
 
+                
+
+
+        const createTestimonialCard = (testimonial) => `
+                <div class="testimonial-card">
+                    <div class="accent-dot"></div>
+                    <div class="shield-icon">
+                        <i class="${testimonial.icon}"></i>
+                    </div>
+                    <div class="quote-icon">
+                        <i class="fas fa-quote-left"></i>
+                    </div>
+                    <p class="testimonial-text">
+                        "${testimonial.quote}"
+                    </p>
+                    <div class="testimonial-author">
+                        <img src="${testimonial.avatar}" alt="${testimonial.name}" class="author-avatar" onerror="this.onerror=null;this.src='https://placehold.co/100x100/cccccc/ffffff?text=??';">
+                        <div class="author-info">
+                            <h4>${testimonial.name}</h4>
+                            <p>${testimonial.title}</p>
+                        </div>
+                    </div>
+                </div>
+            `;
+
         // Testimonial Slider
-        const setupTestimonialSlider = () => {
-            const slider = document.querySelector('.testimonial-slider');
-            const track = slider.querySelector('.testimonial-track');
-            const slides = slider.querySelectorAll('.testimonial');
-            const dots = slider.querySelectorAll('.slider-dot');
-            let currentSlide = 0;
-            let autoSlideInterval;
+        const populateTestimonials = (containerId, data) => {
+                const wrapper = document.getElementById(containerId);
+                if (!wrapper) return;
 
-            const goToSlide = (slideIndex) => {
-                track.style.transform = `translateX(-${slideIndex * 100}%)`;
-                dots.forEach((dot, index) => {
-                    dot.classList.toggle('dot-active', index === slideIndex);
-                    dot.classList.toggle('dot-inactive', index !== slideIndex);
-                });
-                currentSlide = slideIndex;
+                // Generate HTML for each card from the data array
+                const testimonialsHTML = data.map(createTestimonialCard).join('');
+
+                // Duplicate the content to create a seamless infinite loop effect
+                wrapper.innerHTML = testimonialsHTML + testimonialsHTML;
             };
 
-            const startAutoSlide = () => {
-                stopAutoSlide();
-                autoSlideInterval = setInterval(() => {
-                    goToSlide((currentSlide + 1) % slides.length);
-                }, 5000);
-            };
-            const stopAutoSlide = () => clearInterval(autoSlideInterval);
-            
-            dots.forEach((dot, index) => {
-                dot.addEventListener('click', () => {
-                    goToSlide(index);
-                    startAutoSlide(); // Reset interval on manual navigation
-                });
-            });
+            // Split the data for the two rows
+            const half = Math.ceil(testimonialsData.length / 2);
+            const topRowData = testimonialsData.slice(0, half);
+            const bottomRowData = testimonialsData.slice(half);
 
-            slider.addEventListener('mouseenter', stopAutoSlide);
-            slider.addEventListener('mouseleave', startAutoSlide);
-            
-            startAutoSlide();
-        };
-        setupTestimonialSlider();
+            // Populate both rows with the data
+            populateTestimonials('top-row-wrapper', topRowData);
+            populateTestimonials('bottom-row-wrapper', bottomRowData);
+        
     </script>
 </body>
 </html>

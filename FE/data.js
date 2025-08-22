@@ -80,9 +80,56 @@ const workshopsData = [
 
 
 const industrialVisitsData = [
-    { img: 'https://placehold.co/600x400/E63946/FFF?text=Visit+1', title: 'Tech Corp Visit', description: 'Our students visited Tech Corp to learn about the latest in software development.' },
-    { img: 'https://placehold.co/600x400/F87171/FFF?text=Visit+2', title: 'Innovate Inc. Tour', description: 'A look into the manufacturing processes at Innovate Inc.' }
-];
+            {
+                title: 'Tech Corp Visit',
+                description: 'Our students visited Tech Corp to learn about the latest in software development, including cloud coOur students visited Tech Corp to learn about the latest in software development, including cloud coOur students visited Tech Corp to learn about the latest in software development, including cloud coOur students visited Tech Corp to learn about the latest in software development, including cloud co  mputing and AI applications. The visit provided valuable insights into industry practices.',
+                imageUrls: [
+                    'https://placehold.co/600x400/E63946/FFF?text=Visit+1A',
+                    'https://placehold.co/600x400/F87171/FFF?text=Visit+1B',
+                    'https://placehold.co/600x400/FBBF24/333?text=Visit+1C'
+                ]
+            },
+            {
+                title: 'Innovate Inc. Tour',
+                description: 'A look into the advanced manufacturing processes and robotic automation at Innovate Inc. Students had a chance to sr students visited Tech Corp to learn about the latest in software development, including cloud coOur students visited Tech Corp to learn about the latest in software development, including cloud coOur students visited Tech Corp to learn about the latest in software development, including cloud co  mputing and AI applications. The visit provided valuable insights into industry pree the assembly line and quality control systems in action.',
+                imageUrls: [
+                    'https://placehold.co/600x400/1d3557/FFF?text=Visit+2A',
+                    'https://placehold.co/600x400/457b9d/FFF?text=Visit+2B'
+                ]
+            },
+            {
+                title: 'Innovate Inc. Tour',
+                description: 'A look into the advanced manufacturing processes and robotic automation at Innovate Inc. Students had a chance to sr students visited Tech Corp to learn about the latest in software development, including cloud coOur students visited Tech Corp to learn about the latest in software development, including cloud coOur students visited Tech Corp to learn about the latest in software development, including cloud co  mputing and AI applications. The visit provided valuable insights into industry pree the assembly line and quality control systems in action.',
+                imageUrls: [
+                    'https://placehold.co/600x400/1d3557/FFF?text=Visit+2A',
+                    'https://placehold.co/600x400/457b9d/FFF?text=Visit+2B'
+                ]
+            },
+            {
+                title: 'Innovate Inc. Tour',
+                description: 'A look into the advanced manufacturing processes and robotic automation at Innovate Inc. Students had a chance to sr students visited Tech Corp to learn about the latest in software development, including cloud coOur students visited Tech Corp to learn about the latest in software development, including cloud coOur students visited Tech Corp to learn about the latest in software development, including cloud co  mputing and AI applications. The visit provided valuable insights into industry pree the assembly line and quality control systems in action.',
+                imageUrls: [
+                    'https://placehold.co/600x400/1d3557/FFF?text=Visit+2A',
+                    'https://placehold.co/600x400/457b9d/FFF?text=Visit+2B'
+                ]
+            },
+            {
+                title: 'Innovate Inc. Tour',
+                description: 'A look into the advanced manufacturing processes and robotic automation at Innovate Inc. Students had a chance to sr students visited Tech Corp to learn about the latest in software development, including cloud coOur students visited Tech Corp to learn about the latest in software development, including cloud coOur students visited Tech Corp to learn about the latest in software development, including cloud co  mputing and AI applications. The visit provided valuable insights into industry pree the assembly line and quality control systems in action.',
+                imageUrls: [
+                    'https://placehold.co/600x400/1d3557/FFF?text=Visit+2A',
+                    'https://placehold.co/600x400/457b9d/FFF?text=Visit+2B'
+                ]
+            },
+            {
+                title: 'Innovate Inc. Tour',
+                description: 'A look into the advanced manufacturing processes and robotic automation at Innovate Inc. Students had a chance to sr students visited Tech Corp to learn about the latest in software development, including cloud coOur students visited Tech Corp to learn about the latest in software development, including cloud coOur students visited Tech Corp to learn about the latest in software development, including cloud co  mputing and AI applications. The visit provided valuable insights into industry pree the assembly line and quality control systems in action.',
+                imageUrls: [
+                    'aditya.png',
+                    'https://placehold.co/600x400/457b9d/FFF?text=Visit+2B'
+                ]
+            }
+        ];
 
 const achievementsData = [
   {
@@ -98,14 +145,14 @@ const achievementsData = [
     details: "Financial literacy",
   },
   {
-    imageUrl: "",
-    name: "Om Shelke",
+    imageUrl: "Hassan.png",
+    name: "Hassan Shah",
     event: "Poster Presentation",
     details: "Financial literacy",
   },
   {
-    imageUrl: "",
-    name: "Ayush Dhumal",
+    imageUrl: "Dhruv.png",
+    name: "Dhruv Khairnar",
     event: "Poster Presentation",
     details: "Financial literacy",
   },

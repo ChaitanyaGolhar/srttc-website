@@ -547,15 +547,33 @@
             grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
             gap: 1.5rem;
         }
+         /* --- Main Grid Container --- */
+        .visits-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+            gap: 2rem;
+        }
+
+        /* --- Visit Card Styling --- */
         .visit-card {
-            background-color: var(--sidebar-bg);
+            background-color: var(--bg-white);
             border-radius: 0.75rem;
-            overflow: hidden;
+            box-shadow: 0 4px 6px -1px var(--shadow-color), 0 2px 4px -2px var(--shadow-color);
+            display: flex;
+            flex-direction: column;
+            height: 350px; /* Fixed height for the card */
+            transition: all 0.4s ease;
         }
+
         .visit-slider {
-            height: 200px;
+            height: 250px;
             position: relative;
+            overflow: hidden;
+            order: 1; /* Initially on top */
+            transition: height 0.4s ease-out;
+            flex-shrink: 0;
         }
+
         .visit-slide {
             width: 100%;
             height: 100%;
@@ -564,16 +582,97 @@
             opacity: 0;
             transition: opacity 1s ease-in-out;
         }
+
         .visit-slide.active {
             opacity: 1;
         }
-        .visit-details {
+
+        .visit-info {
             padding: 1rem;
-        }
-        .visit-details .collapsible-content {
-            padding-left: 0;
+            border-top: 1px solid var(--sidebar-border);
+            order: 2; /* Initially at the bottom */
+            display: flex;
+            flex-direction: column;
+            flex-shrink: 0;
+            overflow: hidden; 
         }
         
+        .visit-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-shrink: 0;
+        }
+
+        .visit-title {
+            font-size: 1.125rem;
+            font-weight: 600;
+            color: var(--text-dark);
+        }
+
+        .toggle-details-btn {
+            background-color: var(--primary-red);
+            color: var(--text-light);
+            border: none;
+            border-radius: 0.5rem;
+            padding: 0.5rem 1rem;
+            cursor: pointer;
+            font-weight: 500;
+            transition: background-color 0.2s ease;
+        }
+        .toggle-details-btn:hover {
+            background-color: #c52b38;
+        }
+
+        .visit-details {
+            max-height: 0;
+            overflow-y: auto; /* Enable scrolling on overflow */
+            transition: max-height 0.4s ease-out, padding-top 0.4s ease-out;
+            flex-grow: 1;
+        }
+        
+        .visit-details p {
+            color: var(--text-gray);
+            line-height: 1.6;
+            padding-right: 0.5rem; /* Space for scrollbar */
+        }
+
+        /* --- Custom Scrollbar Styling --- */
+        .visit-details::-webkit-scrollbar {
+            width: 8px;
+        }
+        .visit-details::-webkit-scrollbar-track {
+            background: var(--bg-cream);
+            border-radius: 4px;
+        }
+        .visit-details::-webkit-scrollbar-thumb {
+            background-color: var(--primary-red);
+            border-radius: 4px;
+        }
+        .visit-details {
+            scrollbar-width: thin;
+            scrollbar-color: var(--primary-red) var(--bg-cream);
+        }
+
+
+        /* --- Expanded State --- */
+        .visit-card.expanded .visit-info {
+            order: 1; 
+            flex-grow: 1; 
+            border-top: none;
+        }
+        .visit-card.expanded .visit-slider {
+            order: 2; 
+            height: 0; 
+        }
+        .visit-card.expanded .visit-header {
+             border-bottom: 1px solid var(--sidebar-border);
+             padding-bottom: 1rem;
+        }
+        .visit-card.expanded .visit-details {
+            max-height: 250px; /* Set a max-height to allow scrolling within the card */
+            padding-top: 1rem;
+        }
         
 
         /* --- File Grid (Syllabus/Downloads) --- */
@@ -942,10 +1041,9 @@
                 </table>
             </section>
             <section id="industrial-visits" class="content-section">
-                <h1 class="page-title">Industrial Visits</h1>
-                <div id="image-grid" class="image-grid">
-                    <!-- Industrial visit items will be injected here -->
-                </div>
+                 <h1 style="margin-bottom: 2rem;">Industrial Visits</h1>
+                    <!-- This container will be filled by JavaScript -->
+                    <div id="visits-grid" class="visits-grid"></div>
             </section>
             <section id="achievements" class="content-section">
                  <h1 style="margin-bottom: 2rem;">Student Achievements</h1>
@@ -1096,19 +1194,71 @@
                 `).join('');
             };
             
-            const renderIndustrialVisits = () => {
-                const grid = document.getElementById('image-grid');
-                if (!grid) return;
-                grid.innerHTML = industrialVisitsData.map(visit => `
-                    <div class="image-compartment">
-                        <img src="${visit.img}" alt="${visit.title}">
-                        <div class="image-details">
-                            <h3>${visit.title}</h3>
+            let sliderIntervals = [];
+
+        function renderIndustrialVisits() {
+            const grid = document.getElementById('visits-grid');
+            if (!grid) return;
+
+            sliderIntervals.forEach(clearInterval);
+            sliderIntervals = [];
+            grid.innerHTML = '';
+
+            industrialVisitsData.forEach((visit, index) => {
+                const card = document.createElement('div');
+                card.className = 'visit-card';
+                card.dataset.index = index;
+
+                const sliderImages = visit.imageUrls.map((url, i) => 
+                    `<img src="${url}" alt="${visit.title}" class="visit-slide ${i === 0 ? 'active' : ''}">`
+                ).join('');
+
+                card.innerHTML = `
+                    <div class="visit-slider">
+                        ${sliderImages}
+                    </div>
+                    <div class="visit-info">
+                        <div class="visit-header">
+                            <h3 class="visit-title">${visit.title}</h3>
+                            <button class="toggle-details-btn">Show More</button>
+                        </div>
+                        <div class="visit-details">
                             <p>${visit.description}</p>
                         </div>
                     </div>
-                `).join('');
-            };
+                `;
+                grid.appendChild(card);
+            });
+
+            initializeVisitComponents();
+        }
+        
+        function initializeVisitComponents() {
+            const visitCards = document.querySelectorAll('.visit-card');
+
+            visitCards.forEach(card => {
+                const slides = card.querySelectorAll('.visit-slide');
+                let currentSlide = 0;
+                if (slides.length > 1) {
+                    const intervalId = setInterval(() => {
+                        slides[currentSlide].classList.remove('active');
+                        currentSlide = (currentSlide + 1) % slides.length;
+                        slides[currentSlide].classList.add('active');
+                    }, 3000);
+                    sliderIntervals.push(intervalId);
+                }
+
+                const toggleBtn = card.querySelector('.toggle-details-btn');
+                const details = card.querySelector('.visit-details');
+
+                toggleBtn.addEventListener('click', () => {
+                    card.classList.toggle('expanded');
+                    const isExpanded = card.classList.contains('expanded');
+                    toggleBtn.textContent = isExpanded ? 'Show Less' : 'Show More';
+                });
+            });
+        }
+
 
 
 
