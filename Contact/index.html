@@ -3,15 +3,14 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="Contact SRTTC College for admissions, course information, and inquiries. Get in touch with our team or find answers in our FAQ section.">
   <title>Contact Us - SRTTC</title>
 
-  <!-- Font Awesome for Icons -->
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-  <!-- Google Fonts for Typography -->
   <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700&family=Lato:wght@300;400;700&display=swap" rel="stylesheet">
   
   <style>
-    /* Variables */
+    /* --- CSS FROM index.html --- */
     :root {
       --primary: #C41E3A;
       --secondary: #FFD700;
@@ -19,11 +18,24 @@
       --light: #FFF8E1;
       --dark: #333;
       --gray: #F5F5F5;
+      --ug-color: #3498db; /* Color for Undergraduate courses */
+      --pg-color: #9b59b6; /* Color for Postgraduate courses */
+    }
+
+    @keyframes fadeInDown {
+      from {
+        opacity: 0;
+        transform: translateY(-20px);
+      }
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
     }
 
     body {
       font-family: 'Lato', sans-serif;
-      background: var(--light);
+      background-color: var(--light);
       margin: 0;
       padding: 0;
     }
@@ -39,6 +51,7 @@
       font-size: 2rem;
       font-family: 'Poppins', sans-serif;
       margin-bottom: 0.5rem;
+      animation: fadeInDown 0.8s ease-out both;
     }
 
     .section-subtitle {
@@ -47,6 +60,98 @@
       margin-bottom: 2rem;
       font-size: 1rem;
       line-height: 1.4;
+      animation: fadeInDown 0.8s 0.2s ease-out both;
+    }
+
+    .extra-info-section {
+      padding: 2rem 0;
+      background-color: #fffaf0;
+      background-image: radial-gradient(rgba(196, 30, 58, 0.05) 1px, transparent 1px);
+      background-size: 15px 15px;
+    }
+
+    .faq-container {
+      max-width: 800px;
+      margin: 2rem auto 0;
+    }
+
+    .faq-item {
+      border-bottom: 1px solid #eee;
+      transition: transform 0.3s ease;
+    }
+    
+    .faq-item:hover {
+        transform: translateY(-5px);
+    }
+
+    .faq-question {
+      width: 100%;
+      background: transparent;
+      border: none;
+      text-align: left;
+      padding: 1rem 0;
+      font-family: 'Poppins', sans-serif;
+      font-size: 1.05rem;
+      font-weight: 600;
+      cursor: pointer;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      color: var(--dark);
+      position: relative;
+    }
+    
+    .faq-question .faq-icon {
+        margin-right: 12px;
+        color: var(--primary);
+        font-size: 1.1rem;
+    }
+
+    .faq-question .faq-chevron {
+      transition: transform 0.3s ease;
+      color: var(--primary);
+    }
+    
+    @keyframes bounce-chevron {
+        0%, 100% { transform: translateY(0) rotate(180deg); }
+        50% { transform: translateY(-3px) rotate(180deg); }
+    }
+
+    .faq-question.active .faq-chevron {
+      transform: rotate(180deg);
+      animation: bounce-chevron 0.4s ease-in-out;
+    }
+
+    .faq-answer {
+      max-height: 0;
+      overflow: hidden;
+      transition: max-height 0.4s ease-out, padding 0.4s ease-out, background-color 0.3s ease;
+      color: #4A4A4A;
+      font-size: 0.95rem;
+      line-height: 1.6;
+      border-radius: 0 0 8px 8px;
+    }
+    
+    .faq-item:hover .faq-answer {
+        background-color: #fdfdfd;
+    }
+
+    .faq-answer p, .faq-answer ul {
+      padding: 0 1rem 1rem 1rem;
+    }
+    .faq-answer ul {
+      padding-left: 2rem;
+      margin-top: 0;
+    }
+    
+    .contact-section {
+        background-color: #fff;
+        background-image: linear-gradient(45deg, #f9f9f9 25%, transparent 25%), 
+                          linear-gradient(-45deg, #f9f9f9 25%, transparent 25%), 
+                          linear-gradient(45deg, transparent 75%, #f9f9f9 75%), 
+                          linear-gradient(-45deg, transparent 75%, #f9f9f9 75%);
+        background-size: 20px 20px;
+        padding: 2rem 0;
     }
 
     .contact-grid {
@@ -57,39 +162,49 @@
       padding: 1.5rem;
       border-radius: 12px;
       box-shadow: 0 10px 30px rgba(0,0,0,0.1);
-    }
-
-    @media(min-width: 992px) {
-      .contact-grid {
-        grid-template-columns: 1fr 2fr;
-        padding: 2rem;
-      }
+      position: relative;
+      overflow: hidden;
     }
 
     .contact-info-card {
       background: linear-gradient(135deg, var(--primary), var(--accent));
       color: #fff;
-      padding: 1.5rem;
+      padding: 2rem;
       border-radius: 10px;
+      transition: transform 0.3s ease, box-shadow 0.3s ease;
+    }
+
+    .contact-info-card:hover {
+        transform: translateY(-6px);
+        box-shadow: 0 12px 24px rgba(196, 30, 58, 0.25);
     }
 
     .contact-info-card h3 {
       font-family: 'Poppins', sans-serif;
-      margin-bottom: 1rem;
+      margin-top: 0;
+      margin-bottom: 1.5rem;
     }
 
     .contact-info-card p {
-      margin: 0.5rem 0;
-      line-height: 1.4;
+      margin: 1rem 0;
+      line-height: 1.6;
       font-size: 0.95rem;
+      display: flex;
+      align-items: flex-start;
+      gap: 15px;
     }
 
-    /* Social Icons */
+    .contact-info-card p i.fas {
+        margin-top: 4px;
+        width: 20px;
+        text-align: center;
+    }
+
     .social-icons {
       display: flex;
       justify-content: center;
-      gap: 12px;
-      margin-top: 1.2rem;
+      gap: 15px;
+      margin-top: 2rem;
     }
 
     .social-icon {
@@ -125,11 +240,17 @@
     .map-container {
       position: relative;
       width: 100%;
-      padding-bottom: 56.25%;
+      padding-bottom: 56.25%; /* Responsive 16:9 aspect ratio */
       border-radius: 10px;
       overflow: hidden;
-      margin-top: 1.5rem;
+      margin-top: 2rem;
       box-shadow: 0 4px 12px rgba(0,0,0,0.2);
+      transition: transform 0.3s ease, box-shadow 0.3s ease;
+    }
+    
+    .map-container:hover {
+        transform: scale(1.03);
+        box-shadow: 0 8px 25px rgba(0,0,0,0.2);
     }
 
     .map-container iframe {
@@ -141,14 +262,86 @@
       border: 0;
     }
 
+    .working-hours {
+      margin-top: 2rem;
+      text-align: center;
+      border-top: 1px solid rgba(255, 255, 255, 0.2);
+      padding-top: 1.5rem;
+    }
+
+    .info-card-subtitle {
+      font-family: 'Poppins', sans-serif;
+      font-weight: 600;
+      margin-top: 0;
+      margin-bottom: 0.75rem;
+      font-size: 1.1rem;
+    }
+
+    .working-hours p {
+      margin: 0.25rem 0;
+      font-size: 0.9rem;
+      display: block;
+      gap: 0;
+    }
+
+    .directions-btn {
+      display: block;
+      width: 90%;
+      margin: 1.5rem auto 0;
+      padding: 12px;
+      background-color: #fff;
+      color: var(--primary);
+      text-decoration: none;
+      border-radius: 50px;
+      text-align: center;
+      font-weight: 600;
+      box-shadow: 0 4px 10px rgba(0,0,0,0.15);
+      transition: all 0.3s ease;
+    }
+
+    .directions-btn:hover {
+      background-color: var(--secondary);
+      color: var(--dark);
+      transform: translateY(-2px);
+      box-shadow: 0 6px 15px rgba(0,0,0,0.2);
+    }
+
+    .directions-btn i {
+      margin-right: 8px;
+    }
+
     .contact-form-container h3 {
       font-family: 'Poppins', sans-serif;
       margin-bottom: 1.2rem;
       font-size: 1.4rem;
     }
+    
+    .form-progress-bar {
+        width: 100%;
+        height: 10px;
+        background-color: #e9ecef;
+        border-radius: 10px;
+        margin-bottom: 1.5rem;
+        overflow: hidden;
+    }
+    .form-progress-bar-inner {
+        width: 0%;
+        height: 100%;
+        background: linear-gradient(90deg, var(--accent), var(--primary));
+        transition: width 0.4s ease-out;
+        border-radius: 10px;
+    }
+    .progress-text {
+        text-align: right;
+        font-size: 0.8rem;
+        font-weight: 600;
+        color: #666;
+        margin-top: 4px;
+    }
 
     .form-group {
       margin-bottom: 1rem;
+      position: relative; /* For tooltip positioning */
     }
 
     label {
@@ -166,182 +359,605 @@
       background: var(--gray);
       font-family: 'Lato', sans-serif;
       font-size: 0.95rem;
-      transition: 0.3s;
+      transition: all 0.3s ease;
       box-sizing: border-box;
     }
+    
+    input:hover, textarea:hover, .custom-select-trigger:hover {
+        transform: translateY(-2px);
+        box-shadow: 0 4px 10px rgba(0,0,0,0.05);
+    }
 
-    input:focus, select:focus, textarea:focus {
+    input:focus, select:focus, textarea:focus, .custom-select-wrapper.active .custom-select-trigger {
       border-color: var(--primary);
       background: #fff;
       outline: none;
+      box-shadow: 0 0 0 3px rgba(196, 30, 58, 0.2), 0 4px 10px rgba(0,0,0,0.05);
+      transform: translateY(-2px);
+    }
+    
+    .tooltip {
+        position: absolute;
+        bottom: 100%;
+        left: 50%;
+        transform: translateX(-50%);
+        background-color: var(--dark);
+        color: #fff;
+        padding: 5px 10px;
+        border-radius: 5px;
+        font-size: 0.8rem;
+        white-space: nowrap;
+        opacity: 0;
+        visibility: hidden;
+        transition: opacity 0.3s ease, visibility 0.3s ease;
+        margin-bottom: 5px;
+        z-index: 10;
+    }
+    .tooltip::after {
+        content: '';
+        position: absolute;
+        top: 100%;
+        left: 50%;
+        margin-left: -5px;
+        border-width: 5px;
+        border-style: solid;
+        border-color: var(--dark) transparent transparent transparent;
+    }
+    .form-group:hover .tooltip {
+        opacity: 1;
+        visibility: visible;
     }
 
-    .form-actions {
-      margin-top: 1rem;
+    textarea {
+      height: 140px;
+      resize: none;
     }
 
-    .btn {
+    .custom-select-wrapper {
+      position: relative;
+      cursor: pointer;
+    }
+
+    .custom-select-trigger {
       width: 100%;
       padding: 12px;
       border-radius: 8px;
-      border: none;
-      cursor: pointer;
-      background: var(--primary);
-      color: #fff;
-      font-weight: 600;
-      display: inline-flex;
+      background: var(--gray);
+      font-size: 0.95rem;
+      display: flex;
+      justify-content: space-between;
       align-items: center;
-      justify-content: center;
-      transition: 0.3s;
-      font-size: 1rem;
+      color: #555;
     }
 
-    .btn:hover {
-      background: #A0172A;
+    .custom-select-trigger .arrow {
+      transition: transform 0.3s ease;
+      font-size: 0.8rem;
+    }
+
+    .custom-select-wrapper.active .arrow {
+      transform: rotate(180deg);
+    }
+
+    .custom-options {
+      position: absolute;
+      top: calc(100% + 5px);
+      left: 0;
+      right: 0;
+      background: #fff;
+      border-radius: 8px;
+      border: 1px solid #ddd;
+      box-shadow: 0 10px 25px rgba(0,0,0,0.1);
+      list-style: none;
+      padding: 0;
+      margin: 0;
+      z-index: 100;
+      opacity: 0;
+      visibility: hidden;
+      transform: translateY(-10px);
+      transition: all 0.3s ease;
+    }
+
+    .custom-select-wrapper.active .custom-options {
+      opacity: 1;
+      visibility: visible;
+      transform: translateY(0);
+    }
+
+    .custom-options-tabs {
+        display: flex;
+        border-bottom: 1px solid #ddd;
+    }
+    .tab-link {
+        flex: 1; padding: 12px; border: none; background: #f9f9f9; cursor: pointer;
+        font-weight: 600; font-family: 'Poppins', sans-serif; font-size: 0.9rem;
+        transition: all 0.3s ease; border-bottom: 3px solid transparent;
+        display: flex; align-items: center; justify-content: center; gap: 8px;
+    }
+    .tab-link:first-child { border-right: 1px solid #ddd; }
+    .tab-link.active { 
+        background: #fff; 
+        color: var(--primary); 
+        border-bottom: 3px solid var(--primary); 
+    }
+    .tab-link[data-tab="ug"].active { background-color: #eaf5ff; } /* UG highlight */
+    .tab-link[data-tab="pg"].active { background-color: #fbeeff; } /* PG highlight */
+
+
+    .custom-options-content { max-height: 225px; overflow-y: auto; }
+    .custom-options-content::-webkit-scrollbar { width: 8px; }
+    .custom-options-content::-webkit-scrollbar-track { background: #f1f1f1; }
+    .custom-options-content::-webkit-scrollbar-thumb { background: #ccc; border-radius: 8px; }
+
+    .sub-options { list-style: none; padding: 0; margin: 0; display: none; }
+    .sub-options.active { display: block; }
+    
+    .sub-options li {
+        padding: 12px 16px; font-size: 0.95rem; cursor: pointer;
+        transition: background-color 0.2s ease, padding-left 0.2s ease, border-left-width 0.2s ease;
+        border-left: 4px solid transparent; /* For color coding */
+    }
+    
+    .sub-options[data-content="ug"] li:hover { border-left-color: var(--ug-color); }
+    .sub-options[data-content="pg"] li:hover { border-left-color: var(--pg-color); }
+    .sub-options[data-content="ug"] li.selected { border-left-color: var(--ug-color); font-weight: 600; background-color: #f0f8ff; }
+    .sub-options[data-content="pg"] li.selected { border-left-color: var(--pg-color); font-weight: 600; background-color: #fdf5ff; }
+    
+    .sub-options li:hover {
+        background-color: var(--light);
+        color: var(--primary);
+        padding-left: 20px;
+    }
+
+    .animate-on-scroll {
+      opacity: 0;
+      transform: translateY(30px);
+      transition: opacity 0.6s ease-out, transform 0.6s ease-out;
+      will-change: opacity, transform;
+    }
+    .animate-on-scroll.is-visible { opacity: 1; transform: translateY(0); }
+
+    .form-actions { margin-top: 1rem; }
+
+    .btn {
+      width: 100%; padding: 12px; border-radius: 8px; border: none; cursor: pointer; background: var(--primary);
+      color: #fff; font-weight: 600; display: inline-flex; align-items: center; justify-content: center;
+      transition: all 0.3s; font-size: 1rem; position: relative; overflow: hidden;
+    }
+    .btn:hover { background: #A0172A; transform: translateY(-2px); box-shadow: 0 6px 15px rgba(196, 30, 58, 0.3); }
+    
+    .btn-icon {
+        margin-left: 8px;
+        transition: transform 0.3s ease;
+    }
+    .btn:hover .btn-icon {
+        transform: translateX(5px) rotate(5deg);
     }
 
     .spinner {
-      display: none;
-      width: 18px;
-      height: 18px;
-      border: 3px solid rgba(255,255,255,0.4);
-      border-top: 3px solid #fff;
-      border-radius: 50%;
-      animation: spin 0.8s linear infinite;
-      margin-left: 10px;
+      display: none; width: 18px; height: 18px; border: 3px solid rgba(255,255,255,0.4);
+      border-top: 3px solid #fff; border-radius: 50%; animation: spin 0.8s linear infinite; margin-left: 10px;
     }
-
     @keyframes spin { to { transform: rotate(360deg); } }
 
-    /* Toast Container */
     #toastContainer {
-      position: fixed;
-      top: 20px;
-      right: 20px;
-      z-index: 9999;
-      display: flex;
-      flex-direction: column;
-      gap: 12px;
-      align-items: flex-end;
+      position: fixed; top: 20px; right: 20px; z-index: 9999; display: flex;
+      flex-direction: column; gap: 12px; align-items: flex-end;
     }
-
-    /* Toast styles */
     .toast {
-      min-width: 260px;
-      padding: 12px 16px;
-      border-radius: 8px;
-      font-size: 0.95rem;
-      font-weight: 500;
-      box-shadow: 0 4px 12px rgba(0,0,0,0.15);
-      opacity: 0;
-      transform: translateX(100%);
-      transition: all 0.5s ease-in-out;
-      display: flex;
-      align-items: center;
-      gap: 10px;
+      min-width: 260px; padding: 12px 16px; border-radius: 8px; font-size: 0.95rem;
+      font-weight: 500; box-shadow: 0 4px 12px rgba(0,0,0,0.15); opacity: 0;
+      transform: translateX(100%); transition: all 0.5s ease-in-out; display: flex; align-items: center; gap: 10px;
     }
-
     .toast.success { background: #d4edda; color: #155724; border-left: 5px solid #28a745; }
     .toast.error   { background: #f8d7da; color: #721c24; border-left: 5px solid #dc3545; }
     .toast.warning { background: #fff3cd; color: #856404; border-left: 5px solid #ffc107; }
-
     .toast i { font-size: 1.2rem; }
-
     .toast.show { opacity: 1; transform: translateX(0); }
     .toast.hide { opacity: 0; transform: translateX(100%); }
     .toast.slide-up { opacity: 0; transform: translateY(-20px); }
-
     .toast .close-btn {
-      margin-left: auto;
-      background: transparent;
-      border: none;
-      font-size: 1.2rem;
-      cursor: pointer;
-      color: inherit;
-      transition: transform 0.2s ease;
+      margin-left: auto; background: transparent; border: none; font-size: 1.2rem;
+      cursor: pointer; color: inherit; transition: transform 0.2s ease;
     }
     .toast .close-btn:hover { transform: scale(1.2); color: #000; }
 
-    /* Mobile adjustments */
+    @media(min-width: 992px) {
+      .contact-grid { grid-template-columns: 1fr 2fr; padding: 2rem; }
+    }
+    @media (max-width: 991px) {
+      .section-title { font-size: 1.8rem; }
+      .contact-grid { padding: 1.5rem; }
+      .contact-info-card { padding: 1.5rem; }
+      .faq-question { font-size: 1rem; }
+    }
     @media(max-width: 600px) {
+      .container { padding: 1rem; }
       .section-title { font-size: 1.6rem; }
+      .section-subtitle { font-size: 0.9rem; }
       .contact-grid { padding: 1rem; }
       input, select, textarea { font-size: 0.9rem; padding: 10px; }
       .btn { font-size: 0.95rem; padding: 10px; }
       .toast { min-width: 220px; font-size: 0.85rem; }
+      .faq-container { margin-top: 1.5rem; }
+      .faq-question { padding: 0.9rem 0; font-size: 0.95rem; }
+      .faq-answer { font-size: 0.9rem; }
+    }
+
+    /* --- MERGED CSS FROM thankyou.html --- */
+    #thank-you-body {
+        margin: 0;
+        font-family: 'Poppins', sans-serif;
+        background: linear-gradient(-45deg, #fff4f4, #ffe8e8, #fff6e6, #fffdf0);
+        background-size: 400% 400%;
+        animation: gradientBG 15s ease infinite;
+        min-height: 100vh;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        padding: 1rem;
+        box-sizing: border-box;
+        overflow-x: hidden;
+        /* MODIFIED: Make the thank you page not scrollable */
+        overflow-y: hidden; 
+    }
+
+    @keyframes gradientBG {
+        0% {background-position: 0% 50%;}
+        50% {background-position: 100% 50%;}
+        100% {background-position: 0% 50%;}
+    }
+
+    .thank-you-card {
+        background: #fff;
+        padding: 3rem 2rem;
+        border-radius: 20px;
+        box-shadow: 0 20px 50px -10px rgba(0,0,0,0.1);
+        max-width: 480px;
+        width: 100%;
+        text-align: center;
+        opacity: 0;
+        transform: translateY(30px);
+        position: relative;
+        z-index: 2;
+        animation: fade-in-up 0.8s ease forwards;
+    }
+
+    @keyframes fade-in-up {
+        to {opacity:1; transform:translateY(0);}
+    }
+
+    .icon-wrapper {
+        font-size: 5rem;
+        margin-bottom: 1.5rem;
+        background: linear-gradient(45deg, var(--accent), var(--primary));
+        -webkit-background-clip: text;
+        -webkit-text-fill-color: transparent;
+        animation: icon-pop 0.6s ease 0.5s forwards;
+        transform: scale(0);
+        opacity: 0;
+        position: relative;
+    }
+
+    .icon-wrapper::before {
+        content: '';
+        position: absolute;
+        top: 50%; left: 50%;
+        transform: translate(-50%, -50%);
+        width: 120px;
+        height: 120px;
+        border-radius: 50%;
+        background: radial-gradient(circle, rgba(196,30,58,0.3) 0%, rgba(196,30,58,0) 70%);
+        animation: pulse 1.5s infinite;
+        z-index: -1;
+    }
+
+    @keyframes pulse {
+        0% { transform: translate(-50%, -50%) scale(0.9); opacity: 0.7; }
+        50% { transform: translate(-50%, -50%) scale(1.1); opacity: 0.4; }
+        100% { transform: translate(-50%, -50%) scale(0.9); opacity: 0.7; }
+    }
+
+    @keyframes icon-pop {
+        to { transform: scale(1); opacity: 1; }
+    }
+
+    .thank-you-card h1 {
+        font-size: 2rem;
+        color: var(--dark);
+        margin: 0 0 0.5rem 0;
+        font-weight: 700;
+        word-wrap: break-word; /* This property was already here, ensuring responsiveness. No change needed. */
+    }
+
+    .tagline {
+        font-size: 1rem;
+        color: var(--primary);
+        opacity: 0;
+        animation: fadeIn 1.5s ease forwards 1s;
+    }
+
+    @keyframes fadeIn { to { opacity: 1; } }
+
+    .thank-you-card p {
+        font-size: 1rem;
+        color: #666;
+        margin: 0 0 1.5rem 0;
+        word-wrap: break-word;
+    }
+
+    .thank-you-card .btn {
+        display: inline-block;
+        padding: 14px 35px;
+        font-size: 1rem;
+        font-weight: 600;
+        color: #fff;
+        border-radius: 50px;
+        text-decoration: none;
+        background: linear-gradient(45deg, var(--accent), var(--primary));
+        box-shadow: 0 8px 25px -5px rgba(196,30,58,0.4);
+        transition: all 0.3s ease;
+        margin: 5px;
+        min-width: 120px;
+        width: auto; /* Override form button style */
+    }
+
+    .thank-you-card .btn:hover {
+        transform: translateY(-3px);
+        box-shadow: 0 12px 30px -5px rgba(196,30,58,0.5);
+    }
+
+    .countdown-circle {
+        width: 70px;
+        height: 70px;
+        border-radius: 50%;
+        border: 5px solid var(--light);
+        border-top: 5px solid var(--primary);
+        margin: 1rem auto;
+        animation: spin-countdown 10s linear forwards;
+    }
+
+    @keyframes spin-countdown {
+        0% { transform: rotate(0deg); }
+        100% { transform: rotate(360deg); }
+    }
+
+    .emoji {
+        position: absolute;
+        font-size: 1.5rem;
+        animation: floatUp 5s linear infinite;
+        opacity: 0.7;
+    }
+
+    @keyframes floatUp {
+        from { transform: translateY(100vh) scale(0.5); opacity: 1; }
+        to { transform: translateY(-10vh) scale(1); opacity: 0; }
+    }
+
+    #thank-you-body footer {
+        position: absolute;
+        bottom: 10px;
+        font-size: 0.9rem;
+        color: #666;
+        width: 100%;
+        text-align: center;
+        padding: 0 10px;
+        box-sizing: border-box;
+    }
+
+    @media (max-width: 480px){
+        .thank-you-card {
+            padding: 2rem 1.5rem;
+            animation: slide-in-up 0.8s ease forwards;
+            transform: translateY(100px);
+        }
+        @keyframes slide-in-up {
+            to { transform: translateY(0); opacity:1; }
+        }
+        .thank-you-card h1 { font-size: 1.75rem; }
+        .icon-wrapper { font-size: 4rem; }
+        .countdown-circle { width: 60px; height: 60px; }
+        .thank-you-card .btn { padding: 12px 25px; font-size: 0.95rem; }
+    }
+
+    @media (prefers-color-scheme: dark) {
+        #thank-you-body { background: #121212; }
+        .thank-you-card { background: #1e1e1e; color: #eee; }
+        .thank-you-card h1 { color: #fff; }
+        .thank-you-card p, #thank-you-body footer { color: #ccc; }
     }
   </style>
 </head>
 <body>
+
+<section class="extra-info-section">
+    <div class="container">
+      <h2 class="section-title">Frequently Asked Questions</h2>
+      <div class="faq-container animate-on-scroll">
+        
+        <div class="faq-item">
+          <button class="faq-question" aria-expanded="false" aria-controls="faq1-answer">
+            <div><i class="fas fa-graduation-cap faq-icon"></i><span>How are the placements at SRTTC?</span></div>
+            <i class="fas fa-chevron-down faq-chevron"></i>
+          </button>
+          <div id="faq1-answer" class="faq-answer" role="region">
+              <p>We have a dedicated placement cell that provides pre-placement training and strong industry connections. Our students have been placed in top companies like TCS, Infosys, Wipro, Capgemini, Bitwise, and TechMahindra. Recent placements for the 2024-2025 academic year include packages up to ₹5.5 LPA with companies like TECNIMONT and Swabhav Techlabs.</p>
+          </div>
+        </div>
+
+        <div class="faq-item">
+          <button class="faq-question" aria-expanded="false" aria-controls="faq2-answer">
+            <div><i class="fas fa-dollar-sign faq-icon"></i><span>What is the fee structure for the B.E. first year?</span></div>
+            <i class="fas fa-chevron-down faq-chevron"></i>
+          </button>
+          <div id="faq2-answer" class="faq-answer" role="region">
+              <p>The fee structure varies based on the student's category. For the first year (2024-25), the total fee for the OPEN category is approximately ₹80,335. For OBC/EBC/EWS candidates, it's about ₹48,919. Various government scholarships and schemes are available for eligible students. Please note that these fees are subject to change as per the Fee Regulating Authority (FRA) norms.</p>
+          </div>
+        </div>
+
+        <div class="faq-item">
+          <button class="faq-question" aria-expanded="false" aria-controls="faq3-answer">
+            <div><i class="fas fa-tasks faq-icon"></i><span>What are the eligibility criteria for admission?</span></div>
+            <i class="fas fa-chevron-down faq-chevron"></i>
+          </button>
+          <div id="faq3-answer" class="faq-answer" role="region">
+              <p>For Maharashtra State candidates, you must have passed the HSC (12th) exam with Physics and Mathematics as compulsory subjects, along with another technical subject, and obtained at least 45-50% marks depending on your category. You must also have a valid score in the MHT-CET or JEE Main exam. The criteria are similar for All-India candidates.</p>
+          </div>
+        </div>
+        
+        <div class="faq-item">
+          <button class="faq-question" aria-expanded="false" aria-controls="faq4-answer">
+            <div><i class="fas fa-hotel faq-icon"></i><span>Do you offer hostel facilities?</span></div>
+            <i class="fas fa-chevron-down faq-chevron"></i>
+          </button>
+          <div id="faq4-answer" class="faq-answer" role="region">
+              <p>Yes, we do provide hostel facilities. The approximate annual fee for the hostel is ₹35,000, which includes a deposit. While the college is working on expanding these facilities, we ensure a safe and supportive environment for our students.</p>
+          </div>
+        </div>
+
+        <div class="faq-item">
+          <button class="faq-question" aria-expanded="false" aria-controls="faq5-answer">
+            <div><i class="fas fa-book-open faq-icon"></i><span>Which B.E. courses are offered and what is the intake?</span></div>
+            <i class="fas fa-chevron-down faq-chevron"></i>
+          </button>
+          <div id="faq5-answer" class="faq-answer" role="region">
+              <p>We offer several in-demand B.E. programs. The main courses and their approved intake are:
+                <ul>
+                  <li>Computer Engineering: 180 Seats</li>
+                  <li>Artificial Intelligence & Data Science: 120 Seats</li>
+                  <li>Information Technology: 120 Seats</li>
+                  <li>Computer Science & Engineering (Data Science): 60 Seats</li>
+                  <li>Mechanical Engineering: 30 Seats</li>
+                  <li>Civil Engineering: 30 Seats</li>
+                </ul>
+              </p>
+          </div>
+        </div>
+
+      </div>
+    </div>
+</section>
 
   <section class="contact-section">
     <div class="container">
       <h2 class="section-title">Get in Touch</h2>
       <p class="section-subtitle">We're here to answer your questions about admissions and our programs.</p>
 
-      <div class="contact-grid">
-        <!-- Left: Info -->
+      <div class="contact-grid animate-on-scroll">
         <div class="contact-info-card">
           <h3>Contact Information</h3>
-          <p><i class="fas fa-map-marker-alt"></i> SRTTC, Kamshet, Pune, MH 410405</p>
+          <p><i class="fas fa-map-marker-alt"></i> 
+            Suman Ramesh Tulsiani Technical Campus - Faculty of Engineering
+            MAUJE KHAMSHET, TAL.MAVAL, DIST. PUNE, Maharashtra,
+            Pincode: 410405</p>
           <p><i class="fas fa-phone"></i> +91 12345 67890</p>
-          <p><i class="fas fa-envelope"></i> admissions@srttc.ac.in</p>
+          <p><i class="fas fa-envelope"></i> admissioninsrttc@gmail.com</p>
 
-          <!-- Social Media -->
           <div class="social-icons">
-            <a href="https://www.facebook.com/profile.php?id=100009512947239" target="_blank" class="social-icon"><i class="fab fa-facebook-f"></i></a>
-            <a href="https://x.com/SumanPune" target="_blank" class="social-icon"><i class="fab fa-twitter"></i></a>
-            <a href="https://www.instagram.com/srttc_official?utm_source=ig_web_button_share_sheet&igsh=ZDNlZDc0MzIxNw==" target="_blank" class="social-icon"><i class="fab fa-instagram"></i></a>
-            <a href="https://www.linkedin.com/in/srttc-tpo/" target="_blank" class="social-icon"><i class="fab fa-linkedin-in"></i></a>
+            <a href="https://www.facebook.com/profile.php?id=100009512947239" target="_blank" rel="noopener noreferrer" class="social-icon"><i class="fab fa-facebook-f"></i></a>
+            <a href="https://x.com/SumanPune" target="_blank" rel="noopener noreferrer" class="social-icon"><i class="fab fa-twitter"></i></a>
+            <a href="https://www.instagram.com/srttc_official?utm_source=ig_web_button_share_sheet&igsh=ZDNlZDc0MzIxNw==" target="_blank" rel="noopener noreferrer" class="social-icon"><i class="fab fa-instagram"></i></a>
+            <a href="https://www.linkedin.com/in/srttc-tpo/" target="_blank" rel="noopener noreferrer" class="social-icon"><i class="fab fa-linkedin-in"></i></a>
           </div>
 
-          <!-- Map -->
-          <div class="map-container">
-            <iframe 
-              src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3777.949203993649!2d73.53203557496896!3d18.75580583238394!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x3bc2abbfeb8600bb%3A0x4669673f97336d33!2sSuman%20Ramesh%20Tulsiani%20College%20Of%20Engineering%2C%20Maharashtra%20410405!5e0!3m2!1sen!2sin!4v1755778521218!5m2!1sen!2sin" 
-              allowfullscreen="" loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe>
+          <div class="map-container animate-on-scroll">
+            <iframe src="https://www.google.com/maps/embed?pb=!1m14!1m8!1m3!1d15111.796800962757!2d73.534611!3d18.755806!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x3bc2abbfeb8600bb%3A0x4669673f97336d33!2sSuman%20Ramesh%20Tulsiani%20College%20Of%20Engineering%2C%20Maharashtra%20410405!5e0!3m2!1sen!2sin!4v1755942121983!5m2!1sen!2sin" width="600" height="450" style="border:0;" allowfullscreen="" loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe>
           </div>
+
+          <div class="working-hours">
+            <h4 class="info-card-subtitle"><i class="fas fa-clock"></i> Working Hours</h4>
+            <p>Mon - Fri: 9:00 AM - 5:00 PM</p>
+            <p>Sat: 9:00 AM - 1:00 PM</p>
+          </div>
+          <a href="https://www.google.com/maps/dir/?api=1&destination=Suman%20Ramesh%20Tulsiani%20College%20Of%20Engineering" target="_blank" rel="noopener noreferrer" class="directions-btn">
+            <i class="fas fa-directions"></i> Get Directions
+          </a>
+
         </div>
 
-        <!-- Right: Form -->
         <div class="contact-form-container">
           <h3>Send Us an Inquiry</h3>
-          <form id="contactForm">
-            <!-- Hidden fields for FormSubmit -->
+          <form id="contactForm" novalidate>
+            <div class="form-progress-bar">
+                <div class="form-progress-bar-inner" id="formProgressBar"></div>
+            </div>
+            <p class="progress-text" id="progressText">0% Complete</p>
+
             <input type="hidden" name="_subject" value="New Inquiry from SRTTC Website">
             <input type="hidden" name="_captcha" value="false">
             <input type="text" name="_honey" style="display:none">
 
             <div class="form-group">
               <label for="name">Full Name</label>
-              <input type="text" id="name" name="name" placeholder="John Doe" required>
+              <input type="text" id="name" name="name" placeholder="Enter your full name" required>
             </div>
             <div class="form-group">
               <label for="email">Email Address</label>
-              <input type="email" id="email" name="email" placeholder="your.email@example.com" required>
+              <input type="email" id="email" name="email" placeholder="e.g., mail@example.com" required>
+              <span class="tooltip">Please enter a valid email.</span>
             </div>
             <div class="form-group">
               <label for="phone">Phone Number</label>
-              <input type="tel" id="phone" name="phone" placeholder="+91 98765 43210">
+              <input type="tel" id="phone" name="phone" placeholder="e.g., +91 9876543210">
+              <span class="tooltip">Optional, but helps us reach you faster.</span>
             </div>
+            
             <div class="form-group">
               <label for="course">Course of Interest</label>
-              <select id="course" name="course" required>
+              <select id="course" name="course" required style="display: none;">
                 <option value="" disabled selected>Select a course</option>
-                <option value="Computer Engineering">Computer Engineering</option>
-                <option value="Mechanical Engineering">Mechanical Engineering</option>
-                <option value="Electrical Engineering">Electrical Engineering</option>
-                <option value="Civil Engineering">Civil Engineering</option>
-                <option value="Chemical Engineering">Chemical Engineering</option>
+                <optgroup label="Undergraduate Programs">
+                  <option value="Computer Engineering (UG)">Computer Engineering (UG)</option>
+                  <option value="AI and Data Science">Artificial Intelligence and Data Science</option>
+                  <option value="Information Technology">Information Technology</option>
+                  <option value="CSE (Data Science)">Computer Science & Engineering (Data Science)</option>
+                  <option value="Mechanical Engineering (UG)">Mechanical Engineering (UG)</option>
+                  <option value="Civil Engineering (UG)">Civil Engineering (UG)</option>
+                </optgroup>
+                <optgroup label="Postgraduate Programs">
+                  <option value="Computer Engineering (PG)">Computer Engineering (PG)</option>
+                  <option value="Mechanical Engineering Design">Mechanical Engineering Design</option>
+                  <option value="Civil Engineering Structures">Civil Engineering Structures</option>
+                </optgroup>
               </select>
+
+              <div class="custom-select-wrapper">
+                <div class="custom-select-trigger" tabindex="0">
+                  <span>Select a course</span>
+                  <i class="fas fa-chevron-down arrow"></i>
+                </div>
+                <div class="custom-options">
+                    <div class="custom-options-tabs">
+                        <button type="button" class="tab-link active" data-tab="ug"><i class="fas fa-user-graduate"></i> Undergraduate</button>
+                        <button type="button" class="tab-link" data-tab="pg"><i class="fas fa-user-tie"></i> Postgraduate</button>
+                    </div>
+                    <div class="custom-options-content">
+                        <ul class="sub-options active" data-content="ug">
+                            <li data-value="Computer Engineering (UG)" tabindex="-1">Computer Engineering</li>
+                            <li data-value="AI and Data Science" tabindex="-1">Artificial Intelligence and Data Science</li>
+                            <li data-value="Information Technology" tabindex="-1">Information Technology</li>
+                            <li data-value="CSE (Data Science)" tabindex="-1">Computer Science & Engineering (Data Science)</li>
+                            <li data-value="Mechanical Engineering (UG)" tabindex="-1">Mechanical Engineering</li>
+                            <li data-value="Civil Engineering (UG)" tabindex="-1">Civil Engineering</li>
+                        </ul>
+                        <ul class="sub-options" data-content="pg">
+                            <li data-value="Computer Engineering (PG)" tabindex="-1">Computer Engineering</li>
+                            <li data-value="Mechanical Engineering Design" tabindex="-1">Mechanical Engineering Design</li>
+                            <li data-value="Civil Engineering Structures" tabindex="-1">Civil Engineering Structures</li>
+                        </ul>
+                    </div>
+                </div>
+              </div>
             </div>
+            
             <div class="form-group">
               <label for="message">Your Message</label>
-              <textarea id="message" name="message" rows="5" placeholder="Tell us about your inquiry..." required></textarea>
+              <textarea id="message" name="message" placeholder="Share your questions or comments here..." required></textarea>
             </div>
             <div class="form-actions">
-              <button type="submit" class="btn" id="submitBtn">
+                <button type="submit" class="btn" id="submitBtn">
                 <span class="btn-text">Submit Inquiry</span>
+                <i class="fas fa-paper-plane btn-icon"></i>
                 <span class="spinner" id="spinner"></span>
               </button>
             </div>
@@ -351,41 +967,144 @@
     </div>
   </section>
 
-  <!-- Toast container -->
   <div id="toastContainer"></div>
 
   <script>
     document.addEventListener("DOMContentLoaded", function () {
+      // --- Intersection Observer for scroll animations ---
+      const animatedElements = document.querySelectorAll(".animate-on-scroll");
+      if (window.IntersectionObserver) {
+          const observer = new IntersectionObserver((entries) => {
+              entries.forEach(entry => {
+                  if (entry.isIntersecting) {
+                      entry.target.classList.add("is-visible");
+                      observer.unobserve(entry.target);
+                  }
+              });
+          }, { threshold: 0.1 });
+          animatedElements.forEach(el => observer.observe(el));
+      }
+
+      // --- FAQ Accordion Logic ---
+      const faqItems = document.querySelectorAll(".faq-item");
+      faqItems.forEach(item => {
+        const question = item.querySelector('.faq-question');
+        const answer = item.querySelector('.faq-answer');
+
+        const toggleFaq = () => {
+            const isExpanded = question.getAttribute('aria-expanded') === 'true';
+            faqItems.forEach(otherItem => {
+                if (otherItem !== item) {
+                    otherItem.querySelector('.faq-question').setAttribute('aria-expanded', 'false');
+                    otherItem.querySelector('.faq-question').classList.remove('active');
+                    otherItem.querySelector('.faq-answer').style.maxHeight = null;
+                }
+            });
+            question.setAttribute('aria-expanded', !isExpanded);
+            question.classList.toggle('active', !isExpanded);
+            answer.style.maxHeight = !isExpanded ? answer.scrollHeight + "px" : null;
+        };
+        question.addEventListener("click", toggleFaq);
+        question.addEventListener("keydown", (e) => {
+            if (e.key === "Enter" || e.key === " ") {
+                e.preventDefault();
+                toggleFaq();
+            }
+        });
+      });
+      
+      // --- Custom Dropdown Logic ---
+      const wrapper = document.querySelector(".custom-select-wrapper");
+      const trigger = document.querySelector(".custom-select-trigger");
+      const originalSelect = document.getElementById("course");
+      const triggerText = trigger.querySelector("span");
+      const optionsContainer = document.querySelector('.custom-options');
+      const tabLinks = document.querySelectorAll(".tab-link");
+      const contentPanels = document.querySelectorAll(".sub-options");
+      let allOptions = Array.from(document.querySelectorAll(".sub-options li"));
+      
+      const toggleDropdown = (show) => {
+          const expanded = typeof show === 'boolean' ? show : wrapper.classList.contains('active');
+          wrapper.classList.toggle('active', !expanded);
+          trigger.setAttribute('aria-expanded', !expanded);
+      };
+
+      trigger.addEventListener("click", () => toggleDropdown());
+      trigger.addEventListener("keydown", (e) => {
+          if (e.key === "Enter" || e.key === " ") {
+              e.preventDefault(); toggleDropdown();
+              if (wrapper.classList.contains('active')) allOptions.find(o => o.offsetParent)?.focus();
+          } else if (e.key === "Escape") toggleDropdown(true);
+      });
+
+      tabLinks.forEach(tab => {
+        tab.addEventListener("click", (e) => {
+          e.stopPropagation();
+          const tabTarget = e.currentTarget.getAttribute('data-tab');
+          tabLinks.forEach(link => link.classList.remove('active'));
+          e.currentTarget.classList.add('active');
+          contentPanels.forEach(panel => panel.classList.toggle('active', panel.getAttribute('data-content') === tabTarget));
+        });
+      });
+
+      allOptions.forEach((option, index) => {
+        option.addEventListener("click", (e) => { e.stopPropagation(); selectOption(option); });
+        option.addEventListener("keydown", (e) => {
+            e.preventDefault();
+            let currentVisibleOptions = allOptions.filter(o => o.offsetParent);
+            let currentIndex = currentVisibleOptions.indexOf(e.target);
+            if (e.key === "Enter" || e.key === " ") selectOption(e.target);
+            else if (e.key === "ArrowDown") currentVisibleOptions[(currentIndex + 1) % currentVisibleOptions.length].focus();
+            else if (e.key === "ArrowUp") currentVisibleOptions[(currentIndex - 1 + currentVisibleOptions.length) % currentVisibleOptions.length].focus();
+            else if (e.key === "Escape") { toggleDropdown(true); trigger.focus(); }
+        });
+      });
+      
+      function selectOption(option) {
+          allOptions.forEach(o => o.classList.remove("selected"));
+          option.classList.add("selected");
+          triggerText.textContent = option.textContent;
+          triggerText.style.color = '#333';
+          originalSelect.value = option.getAttribute("data-value");
+          originalSelect.dispatchEvent(new Event('change', { bubbles: true }));
+          toggleDropdown(true);
+          trigger.focus();
+      }
+
+      window.addEventListener("click", (e) => { if (wrapper && !wrapper.contains(e.target)) toggleDropdown(true); });
+
+      // --- Form Progress Bar Logic ---
       const form = document.getElementById("contactForm");
+      const requiredFields = Array.from(form.querySelectorAll("[required]"));
+      const progressBar = document.getElementById("formProgressBar");
+      const progressText = document.getElementById("progressText");
+
+      const updateProgress = () => {
+          const filledFields = requiredFields.filter(field => (field.type === 'select-one' ? field.value !== '' : field.value.trim() !== '')).length;
+          const progress = (filledFields / requiredFields.length) * 100;
+          progressBar.style.width = `${progress}%`;
+          progressText.textContent = `${Math.round(progress)}% Complete`;
+      };
+      requiredFields.forEach(field => {
+          field.addEventListener('input', updateProgress);
+          if (field.id === 'course') field.addEventListener('change', updateProgress);
+      });
+      updateProgress();
+
+      // --- Form submission and Toast logic ---
       const submitBtn = document.getElementById("submitBtn");
       const spinner = document.getElementById("spinner");
       const btnText = submitBtn.querySelector(".btn-text");
+      const btnIcon = submitBtn.querySelector(".btn-icon");
       const toastContainer = document.getElementById("toastContainer");
 
-      // Function to show toast notifications
       function showToast(message, type = "success") {
         const toast = document.createElement("div");
         toast.className = `toast ${type}`;
-
-        const icon = document.createElement("i");
-        if (type === "success") icon.className = "fas fa-check-circle";
-        else if (type === "error") icon.className = "fas fa-times-circle";
-        else if (type === "warning") icon.className = "fas fa-exclamation-triangle";
-
-        const text = document.createElement("span");
-        text.textContent = message;
-
-        const closeBtn = document.createElement("button");
-        closeBtn.className = "close-btn";
-        closeBtn.innerHTML = "&times;";
-        closeBtn.addEventListener("click", () => removeToast(toast));
-
-        toast.appendChild(icon);
-        toast.appendChild(text);
-        toast.appendChild(closeBtn);
-
+        const iconMap = { success: "fa-check-circle", error: "fa-times-circle", warning: "fa-exclamation-triangle" };
+        toast.innerHTML = `<i class="fas ${iconMap[type]}"></i><span>${message}</span><button class="close-btn">×</button>`;
+        toast.querySelector('.close-btn').addEventListener('click', () => removeToast(toast));
         toastContainer.prepend(toast);
-
         setTimeout(() => toast.classList.add("show"), 50);
         setTimeout(() => removeToast(toast), 5000);
       }
@@ -395,62 +1114,120 @@
         toast.classList.add("slide-up");
         setTimeout(() => toast.remove(), 500);
       }
-
-      // Listen for the form submission
-      form.addEventListener("submit", async function (e) {
-        e.preventDefault(); // Prevent the default form submission
-
-        // --- FormSubmit.co Integration ---
+      
+      // --- MERGED: Function to show Thank You page content ---
+      function showThankYouPage(userName) {
+        document.body.id = "thank-you-body"; // Apply thank-you page specific body styles
+        document.title = "Thank You - SRTTC"; // Change page title
         
-        // IMPORTANT: Replace with your email address
-        const targetEmail = 'admissioninsrttc@gmail.com';
-        const endpoint = 'https://formsubmit.co/ajax/' + targetEmail;
-
-        // Validation
-        if (!form.course.value) {
-          showToast("⚠️ Please select a course before submitting.", "warning");
-          return;
+        // Replace body content with thank you page HTML
+        document.body.innerHTML = `
+          <div id="emoji-container"></div>
+          <div class="thank-you-card">
+            <div class="icon-wrapper">
+              <i class="fas fa-envelope-open-text"></i>
+            </div>
+            <h1 id="thank-message">Thanks for submitting!</h1>
+            <p class="tagline">We’ll get back to you soon 🚀</p>
+            <p>Your message has been sent successfully.</p>
+            <div class="countdown-circle"></div>
+            <p id="redirect-msg">Reloading in <span id="countdown" aria-live="polite">10</span> seconds...</p>
+            <a href="contactus.html" class="btn">Go Home</a>
+          </div>
+          <footer>© 2025 SRTTC College. All Rights Reserved.</footer>
+        `;
+        
+        // --- Activate the JavaScript from thankyou.html ---
+        
+        // Name handling
+        const thankMessage = document.getElementById("thank-message");
+        function capitalizeName(name) {
+          if (!name) return '';
+          return name.split(" ").map(word => word.charAt(0).toUpperCase() + word.slice(1).toLowerCase()).join(" ");
         }
+        if(userName && userName.trim() !== ""){
+          thankMessage.textContent = `Thanks for submitting, ${capitalizeName(userName)}!`;
+        }
+        
+        // Countdown timer to reload the page
+        let timeLeft = 10;
+        const countdownEl = document.getElementById("countdown");
+        const timer = setInterval(() => {
+          timeLeft--;
+          countdownEl.textContent = timeLeft;
+          if(timeLeft <= 0){
+            clearInterval(timer);
+            window.location.reload(); // Reload the page
+          }
+        }, 1000);
 
-        // Update UI to show loading state
+        // Floating emojis
+        const emojis = ["🎉","🎓","✨","🥳","🌟"];
+        function createEmoji(){
+          const emoji = document.createElement("div");
+          emoji.className="emoji";
+          emoji.textContent = emojis[Math.floor(Math.random() * emojis.length)];
+          emoji.style.left = Math.random() * 100 + "vw";
+          emoji.style.animationDuration = (3 + Math.random() * 3) + "s";
+          document.getElementById("emoji-container").appendChild(emoji);
+          setTimeout(() => emoji.remove(), 5000);
+        }
+        setInterval(createEmoji, 700);
+
+        // Confetti burst
+        function launchConfetti(){
+          const style = document.createElement("style");
+          style.textContent = "@keyframes fall{to{transform:translateY(100vh) rotate(360deg); opacity:0;}}";
+          document.head.appendChild(style);
+          for(let i = 0; i < 50; i++){
+            const confetti = document.createElement("div");
+            confetti.textContent = "🎊";
+            confetti.style.position = "absolute";
+            confetti.style.left = Math.random() * 100 + "vw";
+            confetti.style.top = "-10px";
+            confetti.style.fontSize = "20px";
+            confetti.style.animation = `fall ${3 + Math.random() * 2}s linear forwards`;
+            document.body.appendChild(confetti);
+            setTimeout(() => confetti.remove(), 4000);
+          }
+        }
+        launchConfetti();
+      }
+
+      form.addEventListener("submit", async function (e) {
+        e.preventDefault();
+        if (!form.checkValidity()) {
+            showToast("⚠️ Please fill out all required fields.", "warning");
+            return;
+        }
+        
         submitBtn.disabled = true;
         spinner.style.display = "inline-block";
         btnText.textContent = "Sending...";
+        btnIcon.style.display = 'none';
 
-        // Collect form data
         const formData = new FormData(form);
+        const endpoint = 'https://formsubmit.co/ajax/admissioninsrttc@gmail.com';
 
         try {
-          const response = await fetch(endpoint, {
-            method: 'POST',
-            body: formData,
-            headers: {
-              'Accept': 'application/json'
-            }
-          });
-
-          if (!response.ok) {
-            throw new Error('Network response was not ok.');
-          }
-
-          const data = await response.json();
-          console.log(data); // You can see the response from FormSubmit in the console
+          const response = await fetch(endpoint, { method: 'POST', body: formData, headers: { 'Accept': 'application/json' } });
+          if (!response.ok) throw new Error('Network response was not ok.');
           
-          showToast("✅ Success! Redirecting...", "success");
+          showToast("✅ Success! Your message has been sent.", "success");
           
-          // Redirect to a thank you page after a short delay
           setTimeout(() => {
-            window.location.href = 'thankyou.html';
-          }, 1500); // 1.5 second delay
+            const name = formData.get('name');
+            showThankYouPage(name);
+          }, 1500);
 
         } catch (error) {
           console.error("Form submission error:", error);
           showToast("❌ Failed to send inquiry. Please try again.", "error");
         } finally {
-          // Revert the button back to its original state
           submitBtn.disabled = false;
           spinner.style.display = "none";
           btnText.textContent = "Submit Inquiry";
+          btnIcon.style.display = 'inline-block';
         }
       });
     });
