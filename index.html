@@ -6,6 +6,8 @@
     <title>SRTTC - Official Website</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800&family=Lato:wght@300;400;700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <script src="https://cdn.tailwindcss.com"></script>
     <script src="data.js"></script>
     <style>
         /* General Setup and Variables */
@@ -286,7 +288,7 @@
         .mt-8 { margin-top: 2rem; }
         
         /* Testimonials */
-           /* .container {
+          /* .container {
             max-width: 1200px;
             margin: 0 auto;
             padding: 80px 20px;
@@ -591,6 +593,64 @@
             .dropdown-menu { position: static; opacity: 1; visibility: visible; transform: none; box-shadow: none; background: rgba(255, 255, 255, 0.1); margin-top: 0; display: none; max-height: none; overflow-y: visible; }
             .dropdown:hover .dropdown-menu { display: block; }
         }
+
+        /* --- STYLES FROM location.html START --- */
+        body {
+            font-family: 'Inter', sans-serif;
+        }
+
+        /* A clean circular ripple animation */
+        @keyframes circular-ripple {
+            0% {
+                transform: scale(1);
+                opacity: 0.5;
+            }
+            100% {
+                transform: scale(1.5);
+                opacity: 0;
+            }
+        }
+
+        /* Styling for the hover tooltip */
+        .fab-container:hover .fab-tooltip {
+            opacity: 1;
+            transform: translateY(0) translateX(-50%);
+        }
+        
+        /* Animation for the introductory hint text */
+        @keyframes fadeInOut {
+            0%, 100% { opacity: 0; transform: translateX(10px); }
+            10%, 80% { opacity: 1; transform: translateX(0); }
+        }
+
+        .hint-text-animate {
+            animation: fadeInOut 5s ease-in-out forwards;
+        }
+        
+        /* Refined hover effect */
+        #map-fab {
+            transition: transform 0.3s ease-in-out, box-shadow 0.3s ease-in-out;
+            box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
+            position: relative; /* Needed for the pseudo-element */
+            z-index: 1;
+        }
+        #map-fab:hover {
+            transform: translateY(-4px);
+            box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04);
+        }
+
+        /* The pseudo-element creates the circular ripple */
+        #map-fab::after {
+            content: '';
+            position: absolute;
+            inset: 0;
+            background-color: #DC2626;
+            border-radius: 50%;
+            z-index: -1;
+            animation: circular-ripple 2s infinite ease-out;
+        }
+        /* --- STYLES FROM location.html END --- */
+
     </style>
 </head>
 <body>
@@ -916,18 +976,14 @@
         </div>
 
         <div class="testimonials-container">
-            <!-- Top Row - Slides from right to left -->
             <div class="row top-row">
                 <div class="row-wrapper" id="top-row-wrapper">
-                    <!-- Testimonials will be dynamically inserted here -->
-                </div>
+                    </div>
             </div>
 
-            <!-- Bottom Row - Slides from left to right -->
             <div class="row bottom-row">
                 <div class="row-wrapper" id="bottom-row-wrapper">
-                    <!-- Testimonials will be dynamically inserted here -->
-                </div>
+                    </div>
             </div>
         </div>
     </div>
@@ -1012,6 +1068,31 @@
         </div>
     </footer>
 
+    <div class="fab-container fixed bottom-6 right-6 md:bottom-8 md:right-8 z-50 flex items-center">
+        <div id="hint-text" class="bg-white text-gray-800 text-sm font-semibold px-4 py-2 rounded-full shadow-lg mr-4 opacity-0 pointer-events-none">
+         Find Us!
+        </div>
+
+        <div class="fab-tooltip absolute bottom-full left-1/2 transform -translate-x-1/2 mb-2 w-auto min-w-max px-3 py-1.5 bg-gray-800 text-white text-sm rounded-md shadow-lg opacity-0 transition-all duration-300 ease-in-out pointer-events-none">
+            Open in Google Maps
+            <div class="absolute bottom-[-4px] left-1/2 transform -translate-x-1/2 w-2 h-2 bg-gray-800 rotate-45"></div>
+        </div>
+        
+        <a id="map-fab" 
+           href="https://www.google.com/maps/dir/?api=1&destination=Suman%20Ramesh%20Tulsiani%20College%20Of%20Engineering%2C%20Maharashtra%20410405" 
+           target="_blank" 
+           rel="noopener noreferrer"
+           class="w-16 h-16 md:w-20 md:h-20 flex items-center justify-center text-white focus:outline-none rounded-full">
+            <svg class="w-12 h-12" viewBox="0 0 384 512" fill="#DC2626" xmlns="http://www.w3.org/2000/svg">
+                <path d="M172.268 501.67C26.97 291.031 0 269.413 0 192 0 85.961 85.961 0 192 0s192 85.961 192 192c0 77.413-26.97 99.031-172.268 309.67a24 24 0 0 1-35.464 0zM192 272a80 80 0 1 0 0-160 80 80 0 0 0 0 160z"/>
+            </svg>
+            <div class="absolute bottom-0">
+                <svg width="60" height="15" viewBox="0 0 60 15">
+                    <ellipse cx="30" cy="7.5" rx="28" ry="5" fill="rgba(0,0,0,0.2)"/>
+                </svg>
+            </div>
+        </a>
+    </div>
     <script>
         // Navbar scroll effect
         window.addEventListener('scroll', function() {
@@ -1118,9 +1199,6 @@
         };
         setupImageSlider();
 
-                
-
-
         const createTestimonialCard = (testimonial) => `
                 <div class="testimonial-card">
                     <div class="accent-dot"></div>
@@ -1164,6 +1242,16 @@
             populateTestimonials('top-row-wrapper', topRowData);
             populateTestimonials('bottom-row-wrapper', bottomRowData);
         
+        // --- SCRIPT FROM location.html START ---
+        // Show the animated hint text shortly after the page loads
+        window.addEventListener('load', () => {
+            const hintText = document.getElementById('hint-text');
+            setTimeout(() => {
+                hintText.classList.add('hint-text-animate');
+            }, 1000); // Wait 1 second before showing the hint
+        });
+        // --- SCRIPT FROM location.html END ---
+
     </script>
 </body>
 </html>
